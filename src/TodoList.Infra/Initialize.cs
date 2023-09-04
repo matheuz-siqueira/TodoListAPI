@@ -1,3 +1,5 @@
+using TodoList.Domain.Interfaces;
+using TodoList.Infra.Repositories.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +13,7 @@ namespace TodoList.Infra
             IConfiguration configuration)
         {
             AddContext(services, configuration);
+            AddRepositories(services);
         }
 
         public static void AddContext(this IServiceCollection services,
@@ -25,6 +28,10 @@ namespace TodoList.Infra
             );
         }
 
+        public static void AddRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<IUserRepository, UserRepository>();
+        }
 
     }
 }
