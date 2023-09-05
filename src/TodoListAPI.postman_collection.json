@@ -1,0 +1,103 @@
+{
+	"info": {
+		"_postman_id": "3212d18f-5c8e-4d7b-ab78-4ffc079e512a",
+		"name": "TodoListAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27540983"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "create-account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar registrar usuário com sucesso\", function(){",
+									"    pm.response.to.have.status(201);",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.have.jsonBody(\"name\"); ",
+									"    pm.response.to.have.jsonBody(\"token\");",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"",
+									"let email = pm.variables.replaceIn(\"{{$randomEmail}}\")",
+									"",
+									"let password = pm.variables.replaceIn(\"{{$randomPassword}}\")",
+									"let confirmPassword = password; ",
+									"",
+									"postman.setGlobalVariable(\"PASSWORD\", password);",
+									"postman.setGlobalVariable(\"CONFIRMPASSWORD\", confirmPassword); ",
+									"postman.setGlobalVariable(\"EMAIL\", email);  "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"{{$randomFirstName}}\",\n  \"email\": \"{{EMAIL}}\",\n  \"password\": \"{{PASSWORD}}\",\n  \"confirmPassword\": \"{{CONFIRMPASSWORD}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBASE}}/api/users/create-account",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"create-account"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URLBASE",
+			"value": "http://localhost:5037",
+			"type": "string"
+		}
+	]
+}
