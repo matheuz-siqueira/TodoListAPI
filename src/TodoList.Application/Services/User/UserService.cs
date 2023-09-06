@@ -9,30 +9,34 @@ namespace TodoList.Application.Services.User
     public class UserService : IUserService
     {
         private readonly IUserRepository _repository;
+        private readonly IAuthenticationService _auth;
         private readonly IMapper _mapper;
-        public UserService(IUserRepository repository, IMapper mapper)
+        public UserService(IUserRepository repository, IMapper mapper,
+            IAuthenticationService auth)
         {
             _repository = repository;
             _mapper = mapper;
+            _auth = auth;
         }
-        public async Task<LoginResponseJson> RegisterAsync(RegisterUserRequestJson request)
+        public async Task<AuthenticationResponseJson> RegisterAsync(RegisterUserRequestJson request)
         {
+            var existing = await _repository.GetByEmail(request.Email);
+            if (existing is not null)
+            {
+                throw new ExistingUserException("user already exists");
+            }
             if (request.Password != request.ConfirmPassword)
             {
                 throw new DifferentPasswordsException("different passwords");
             }
 
-            request.Password = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
             var user = _mapper.Map<TodoList.Domain.Models.User>(request);
+            var login = _mapper.Map<AuthenticationRequestJson>(user);
+            user.Password = BCrypt.Net.BCrypt.HashPassword(request.Password);
             await _repository.RegisterAsync(user);
 
-            return new LoginResponseJson
-            {
-                Name = request.Name,
-                Token = "Token"
-            };
-
+            return await _auth.Login(login);
 
         }
     }
