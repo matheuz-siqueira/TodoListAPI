@@ -6,6 +6,7 @@ namespace TodoList.Domain.Interfaces
     {
         Task RegisterAsync(User user);
         Task<User> GetByEmail(string email);
+        Task<User> GetProfileAsync(int id);
 
     }
 }

@@ -9,6 +9,7 @@ using TodoList.Application.Interfaces;
 using TodoList.Application.Services.Authentication;
 using TodoList.Application.Services.User;
 using TodoList.Application.Validations;
+using TodoList.Application.Services.BaseServices;
 
 namespace TodoList.Application;
 public static class Initialize
@@ -23,8 +24,10 @@ public static class Initialize
 
     public static void AddServices(this IServiceCollection services)
     {
+        services.AddHttpContextAccessor();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<IUserLogged, UserLogged>();
     }
 
     public static void AddValidators(this IServiceCollection services)
