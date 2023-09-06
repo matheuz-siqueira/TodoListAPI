@@ -10,14 +10,30 @@ namespace TodoList.Application.Services.User
     {
         private readonly IUserRepository _repository;
         private readonly IAuthenticationService _auth;
+        private readonly IUserLogged _logged;
         private readonly IMapper _mapper;
         public UserService(IUserRepository repository, IMapper mapper,
-            IAuthenticationService auth)
+            IAuthenticationService auth, IUserLogged logged)
         {
             _repository = repository;
             _mapper = mapper;
             _auth = auth;
+            _logged = logged;
         }
+
+        public async Task<GetProfileResponseJson> GetProfileAsync()
+        {
+            var userId = _logged.GetCurrentUserId();
+            var user = await _repository.GetProfileAsync(userId);
+            if (user is null)
+            {
+                throw new UserNotFoundException("user not found");
+            }
+
+            var response = _mapper.Map<GetProfileResponseJson>(user);
+            return response;
+        }
+
         public async Task<AuthenticationResponseJson> RegisterAsync(RegisterUserRequestJson request)
         {
             var existing = await _repository.GetByEmail(request.Email);

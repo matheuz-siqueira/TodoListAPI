@@ -18,6 +18,11 @@ namespace TodoList.Infra.Repositories.User
             return _context.Users.AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
+        public Task<Domain.Models.User> GetProfileAsync(int id)
+        {
+            return _context.Users.AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Id == id);
+        }
 
         public async Task RegisterAsync(Domain.Models.User user)
         {

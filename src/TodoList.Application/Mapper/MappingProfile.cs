@@ -8,6 +8,7 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         RequestToEntity();
+        EntityToResponse();
         EntityToRequest();
     }
 
@@ -19,6 +20,7 @@ public class MappingProfile : Profile
 
     public void EntityToResponse()
     {
+        CreateMap<User, GetProfileResponseJson>();
     }
 
     public void EntityToRequest()

@@ -50,4 +50,22 @@ public class UserController : TodoListController
             return BadRequest(new { message = e.Message });
         }
     }
+
+    [HttpGet("get-profile")]
+    public async Task<ActionResult<GetProfileResponseJson>> GetProfileAsync()
+    {
+        try
+        {
+            var response = await _services.GetProfileAsync();
+            return Ok(response);
+        }
+        catch (UserNotFoundException e)
+        {
+            return NotFound(new { message = e.Message });
+        }
+        catch (BadHttpRequestException)
+        {
+            return BadRequest(new { message = "unauthorized access" });
+        }
+    }
 }
