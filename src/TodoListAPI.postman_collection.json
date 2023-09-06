@@ -84,6 +84,9 @@
 									"    pm.response.to.be.withBody;",
 									"    pm.response.to.have.jsonBody(\"name\"); ",
 									"    pm.response.to.have.jsonBody(\"token\");",
+									"",
+									"    let jsonData = pm.response.json();",
+									"    pm.environment.set(\"TOKEN\", jsonData.token);",
 									"})"
 								],
 								"type": "text/javascript"
@@ -122,6 +125,53 @@
 								"v1",
 								"authentication",
 								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar recuperar pefil com sucesso\", function(){",
+									"    pm.response.to.have.status(200); ",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.have.jsonBody(\"id\");",
+									"    pm.response.to.have.jsonBody(\"name\");",
+									"    pm.response.to.have.jsonBody(\"email\");",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URLBASE}}/api/v1/users/get-profile",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"get-profile"
 							]
 						}
 					},
