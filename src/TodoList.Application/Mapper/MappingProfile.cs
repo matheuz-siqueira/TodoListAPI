@@ -2,22 +2,27 @@ using AutoMapper;
 using TodoList.Application.DTOs.User;
 using TodoList.Domain.Models;
 
-namespace TodoList.Application.Mapper
+namespace TodoList.Application.Mapper;
+public class MappingProfile : Profile
 {
-    public class MappingProfile : Profile
+    public MappingProfile()
     {
-        public MappingProfile()
-        {
-            RequestToEntity();
-        }
+        RequestToEntity();
+        EntityToRequest();
+    }
 
-        public void RequestToEntity()
-        {
-            CreateMap<RegisterUserRequestJson, User>();
-        }
+    public void RequestToEntity()
+    {
+        CreateMap<RegisterUserRequestJson, User>();
+        CreateMap<AuthenticationRequestJson, User>();
+    }
 
-        public void EntityToResponse()
-        {
-        }
+    public void EntityToResponse()
+    {
+    }
+
+    public void EntityToRequest()
+    {
+        CreateMap<User, AuthenticationRequestJson>();
     }
 }
