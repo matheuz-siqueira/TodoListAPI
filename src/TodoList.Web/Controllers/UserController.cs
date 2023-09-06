@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using FluentValidation;
 
@@ -21,8 +22,9 @@ public class UserController : TodoListController
         _validatorRegisterUser = validatorRegisterUser;
     }
 
+    [AllowAnonymous]
     [HttpPost("create-account")]
-    public async Task<ActionResult<LoginResponseJson>> RegisterAsync(RegisterUserRequestJson request)
+    public async Task<ActionResult<AuthenticationResponseJson>> RegisterAsync(RegisterUserRequestJson request)
     {
         var result = _validatorRegisterUser.Validate(request);
         if (!result.IsValid)
@@ -36,6 +38,10 @@ public class UserController : TodoListController
             return StatusCode(201, response);
         }
         catch (DifferentPasswordsException e)
+        {
+            return BadRequest(new { message = e.Message });
+        }
+        catch (ExistingUserException e)
         {
             return BadRequest(new { message = e.Message });
         }

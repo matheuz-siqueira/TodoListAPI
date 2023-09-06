@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using TodoList.Domain.Interfaces;
 using TodoList.Infra.Data;
 
@@ -10,6 +11,12 @@ namespace TodoList.Infra.Repositories.User
         public UserRepository(Context context)
         {
             _context = context;
+        }
+
+        public Task<Domain.Models.User> GetByEmail(string email)
+        {
+            return _context.Users.AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task RegisterAsync(Domain.Models.User user)
