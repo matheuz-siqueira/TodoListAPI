@@ -21,6 +21,7 @@
 									"    pm.response.to.be.withBody;",
 									"    pm.response.to.have.jsonBody(\"name\"); ",
 									"    pm.response.to.have.jsonBody(\"token\");",
+									"",
 									"})"
 								],
 								"type": "text/javascript"
@@ -57,14 +58,70 @@
 							}
 						},
 						"url": {
-							"raw": "{{URLBASE}}/api/users/create-account",
+							"raw": "{{URLBASE}}/api/v1/users/create-account",
 							"host": [
 								"{{URLBASE}}"
 							],
 							"path": [
 								"api",
+								"v1",
 								"users",
 								"create-account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar fazer login com sucesso\", function(){",
+									"    pm.response.to.have.status(200); ",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.have.jsonBody(\"name\"); ",
+									"    pm.response.to.have.jsonBody(\"token\");",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"{{EMAIL}}\",\n  \"password\": \"{{PASSWORD}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBASE}}/api/v1/authentication/login",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"authentication",
+								"login"
 							]
 						}
 					},

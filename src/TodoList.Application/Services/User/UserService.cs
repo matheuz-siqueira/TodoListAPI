@@ -35,7 +35,6 @@ namespace TodoList.Application.Services.User
             var login = _mapper.Map<AuthenticationRequestJson>(user);
             user.Password = BCrypt.Net.BCrypt.HashPassword(request.Password);
             await _repository.RegisterAsync(user);
-
             return await _auth.Login(login);
 
         }
