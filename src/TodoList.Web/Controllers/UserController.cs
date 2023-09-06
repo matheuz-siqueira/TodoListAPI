@@ -8,7 +8,7 @@ using TodoList.Application.Exceptions.TodoListExceptions;
 
 namespace TodoList.Web.Controllers;
 
-[Route("api/users")]
+[Route("api/v{version:apiVersion}/users")]
 public class UserController : TodoListController
 {
     private readonly IUserService _services;
