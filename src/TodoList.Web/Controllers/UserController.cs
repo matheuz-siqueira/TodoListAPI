@@ -14,12 +14,15 @@ public class UserController : TodoListController
 {
     private readonly IUserService _services;
     private readonly IValidator<RegisterUserRequestJson> _validatorRegisterUser;
+    private readonly IValidator<UpdatePasswordRequestJson> _validatorUpdatePassword;
 
     public UserController(IUserService services,
-        IValidator<RegisterUserRequestJson> validatorRegisterUser)
+        IValidator<RegisterUserRequestJson> validatorRegisterUser,
+        IValidator<UpdatePasswordRequestJson> validatorUpdatePassword)
     {
         _services = services;
         _validatorRegisterUser = validatorRegisterUser;
+        _validatorUpdatePassword = validatorUpdatePassword;
     }
 
     [AllowAnonymous]
@@ -63,9 +66,27 @@ public class UserController : TodoListController
         {
             return NotFound(new { message = e.Message });
         }
-        catch (BadHttpRequestException)
+    }
+
+    [Authorize]
+    [HttpPut("update-password")]
+    public async Task<ActionResult> UpdatePasswordAsync(UpdatePasswordRequestJson request)
+    {
+        var result = _validatorUpdatePassword.Validate(request);
+        if (!result.IsValid)
         {
-            return BadRequest(new { message = "unauthorized access" });
+            return BadRequest(result.Errors.ToCustomValidationFailure());
         }
+        try
+        {
+            await _services.UpdatePasswordAsync(request);
+            return NoContent();
+
+        }
+        catch (IncorretPasswordException e)
+        {
+            return BadRequest(new { message = e.Message });
+        }
+
     }
 }

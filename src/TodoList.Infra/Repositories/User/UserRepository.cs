@@ -18,6 +18,12 @@ namespace TodoList.Infra.Repositories.User
             return _context.Users.AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
+
+        public async Task<Domain.Models.User> GetById(int id)
+        {
+            return await _context.Users.FirstAsync(u => u.Id == id);
+        }
+
         public Task<Domain.Models.User> GetProfileAsync(int id)
         {
             return _context.Users.AsNoTracking()
@@ -27,6 +33,11 @@ namespace TodoList.Infra.Repositories.User
         public async Task RegisterAsync(Domain.Models.User user)
         {
             await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdatePasswordAsync(Domain.Models.User user)
+        {
             await _context.SaveChangesAsync();
         }
     }

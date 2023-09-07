@@ -54,5 +54,18 @@ namespace TodoList.Application.Services.User
             return await _auth.Login(login);
 
         }
+
+        public async Task UpdatePasswordAsync(UpdatePasswordRequestJson request)
+        {
+            var userId = _logged.GetCurrentUserId();
+            var user = await _repository.GetById(userId);
+            if (!BCrypt.Net.BCrypt.Verify(request.CurrentPassword, user.Password))
+            {
+                throw new IncorretPasswordException("incorret current password");
+            }
+
+            user.Password = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
+            await _repository.UpdatePasswordAsync(user);
+        }
     }
 }
