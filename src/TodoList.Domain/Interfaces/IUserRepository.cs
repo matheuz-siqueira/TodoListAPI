@@ -7,6 +7,8 @@ namespace TodoList.Domain.Interfaces
         Task RegisterAsync(User user);
         Task<User> GetByEmail(string email);
         Task<User> GetProfileAsync(int id);
+        Task UpdatePasswordAsync(User user);
+        Task<User> GetById(int id);
 
     }
 }

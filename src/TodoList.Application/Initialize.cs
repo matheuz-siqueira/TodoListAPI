@@ -34,6 +34,7 @@ public static class Initialize
     {
         services.AddScoped<IValidator<RegisterUserRequestJson>, RegisterUserValidator>();
         services.AddScoped<IValidator<AuthenticationRequestJson>, AuthenticationValidator>();
+        services.AddScoped<IValidator<UpdatePasswordRequestJson>, UpdatePasswordValidator>();
     }
 
     public static void AddAuthentication(this IServiceCollection services,
