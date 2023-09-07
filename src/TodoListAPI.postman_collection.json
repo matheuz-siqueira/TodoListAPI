@@ -176,6 +176,72 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "update-password",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let newPassword = pm.variables.replaceIn(\"{{$randomPassword}}\")",
+									"",
+									"postman.setGlobalVariable(\"NEWPASSWORD\", newPassword);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar atualizar senha com sucesso\", function(){",
+									"    pm.response.to.have.status(204);",
+									"    ",
+									"    var newPassword = postman.getGlobalVariable(\"NEWPASSWORD\");",
+									"    pm.environment.set(\"PASSWORD\", newPassword);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"currentPassword\": \"{{PASSWORD}}\",\n  \"newPassword\": \"{{NEWPASSWORD}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBASE}}/api/v1/users/update-password",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"update-password"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
