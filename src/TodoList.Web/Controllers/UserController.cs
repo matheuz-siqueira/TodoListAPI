@@ -25,6 +25,17 @@ public class UserController : TodoListController
         _validatorUpdatePassword = validatorUpdatePassword;
     }
 
+    ///<summary> 
+    ///Registrar conta no app
+    ///</summary> 
+    ///<remarks> 
+    ///{"name":"string","email":"string","password":"string","confirmPassword":"string"}
+    ///</remarks> 
+    ///<params name="request">Dados do usuário</params> 
+    ///<returns>Token de acesso</returns>
+    ///<response code="201">Sucesso</response>
+    ///<response code="400">Erro na requisição</response>
+
     [AllowAnonymous]
     [HttpPost("create-account")]
     public async Task<ActionResult<AuthenticationResponseJson>> RegisterAsync(RegisterUserRequestJson request)
@@ -54,6 +65,12 @@ public class UserController : TodoListController
         }
     }
 
+    ///<summary> 
+    ///Obter perfil do usuário logado
+    ///</summary>
+    ///<returns>Dados da conta</returns> 
+    ///<response code="200">Sucesso</response>
+    ///<response code="401">Não autenticado</response>
     [HttpGet("get-profile")]
     public async Task<ActionResult<GetProfileResponseJson>> GetProfileAsync()
     {
@@ -68,6 +85,18 @@ public class UserController : TodoListController
         }
     }
 
+    ///<summary> 
+    ///Atualizar senha da conta
+    ///</summary>
+    ///<remarks> 
+    ///{"currentPassword":"string","newPassword":"string"}
+    ///</remarks> 
+    ///<params name="request">Dados para alterar senha</params> 
+    ///<returns>Nada</returns> 
+    ///<response code="200">Sucesso</response>
+    ///<response code="204">Sucesso</response> 
+    ///<response code="400">Erro na requisição</response>
+    ///<response code="401">Não autenticado</response> 
     [Authorize]
     [HttpPut("update-password")]
     public async Task<ActionResult> UpdatePasswordAsync(UpdatePasswordRequestJson request)

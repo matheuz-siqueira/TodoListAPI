@@ -24,6 +24,16 @@ public class AuthenticationController : TodoListController
         _validatorAuth = validatorAuth;
     }
 
+    ///<summary> 
+    ///Logar no app
+    ///</summary> 
+    ///<remarks> 
+    ///{"email":"string","password":"string"}
+    ///</remarks>
+    ///<params name="request">Credenciais para login</params> 
+    ///<returns>Token de acesso</returns> 
+    ///<response code="200">Sucesso</response> 
+    ///<response code="400">Erro na requisição</response> 
     [AllowAnonymous]
     [HttpPost("login")]
     public async Task<ActionResult<AuthenticationResponseJson>> Login(
