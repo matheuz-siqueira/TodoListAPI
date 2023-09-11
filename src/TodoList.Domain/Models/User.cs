@@ -1,9 +1,10 @@
-namespace TodoList.Domain.Models
+namespace TodoList.Domain.Models;
+public sealed class User : BaseEntity
 {
-    public sealed class User : BaseEntity
-    {
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-    }
+    public string Name { get; set; }
+    public string Email { get; set; }
+    public string Password { get; set; }
+
+    //navigation property 
+    public IList<Task> Tasks { get; set; }
 }
