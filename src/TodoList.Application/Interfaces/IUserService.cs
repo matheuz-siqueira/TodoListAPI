@@ -1,13 +1,12 @@
 using TodoList.Application.DTOs.User;
 using TodoList.Domain.Models;
 
-namespace TodoList.Application.Interfaces
-{
-    public interface IUserService
-    {
-        Task<AuthenticationResponseJson> RegisterAsync(RegisterUserRequestJson request);
-        Task<GetProfileResponseJson> GetProfileAsync();
+namespace TodoList.Application.Interfaces;
 
-        Task UpdatePasswordAsync(UpdatePasswordRequestJson request);
-    }
+public interface IUserService
+{
+    Task<AuthenticationResponseJson> RegisterAsync(RegisterUserRequestJson request);
+    Task<GetProfileResponseJson> GetProfileAsync();
+
+    System.Threading.Tasks.Task UpdatePasswordAsync(UpdatePasswordRequestJson request);
 }

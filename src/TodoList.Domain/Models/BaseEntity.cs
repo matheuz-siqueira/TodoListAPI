@@ -1,8 +1,6 @@
-namespace TodoList.Domain.Models
+namespace TodoList.Domain.Models;
+public abstract class BaseEntity
 {
-    public abstract class BaseEntity
-    {
-        public int Id { get; set; }
-        public DateTime UpdateAt { get; set; } = DateTime.Now;
-    }
+    public int Id { get; set; }
+    public DateTime UpdateAt { get; set; } = DateTime.Now;
 }
