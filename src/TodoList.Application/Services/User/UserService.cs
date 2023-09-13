@@ -55,7 +55,7 @@ namespace TodoList.Application.Services.User
 
         }
 
-        public async Task UpdatePasswordAsync(UpdatePasswordRequestJson request)
+        public async System.Threading.Tasks.Task UpdatePasswordAsync(UpdatePasswordRequestJson request)
         {
             var userId = _logged.GetCurrentUserId();
             var user = await _repository.GetById(userId);

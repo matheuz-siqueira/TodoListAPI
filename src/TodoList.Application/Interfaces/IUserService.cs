@@ -1,5 +1,4 @@
 using TodoList.Application.DTOs.User;
-using TodoList.Domain.Models;
 
 namespace TodoList.Application.Interfaces;
 
