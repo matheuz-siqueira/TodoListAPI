@@ -30,13 +30,13 @@ namespace TodoList.Infra.Repositories.User
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public async Task RegisterAsync(Domain.Models.User user)
+        public async System.Threading.Tasks.Task RegisterAsync(Domain.Models.User user)
         {
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdatePasswordAsync(Domain.Models.User user)
+        public async System.Threading.Tasks.Task UpdatePasswordAsync(Domain.Models.User user)
         {
             await _context.SaveChangesAsync();
         }

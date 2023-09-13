@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TodoList.Infra.Data;
+using TodoList.Infra.Repositories.Task;
 
 namespace TodoList.Infra
 {
@@ -31,6 +32,7 @@ namespace TodoList.Infra
         public static void AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ITaskRepository, TaskRepository>();
         }
 
     }

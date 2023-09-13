@@ -1,4 +1,5 @@
 using AutoMapper;
+using TodoList.Application.DTOs.Task;
 using TodoList.Application.DTOs.User;
 using TodoList.Domain.Models;
 
@@ -16,11 +17,15 @@ public class MappingProfile : Profile
     {
         CreateMap<RegisterUserRequestJson, User>();
         CreateMap<AuthenticationRequestJson, User>();
+        CreateMap<RegisterTaskRequestJson, Domain.Models.Task>();
+        CreateMap<RegisterSubTaskRequestJson, Domain.Models.SubTask>();
     }
 
     public void EntityToResponse()
     {
         CreateMap<User, GetProfileResponseJson>();
+        CreateMap<Domain.Models.Task, RegisterTaskResponseJson>();
+        CreateMap<Domain.Models.SubTask, RegisterSubTaskResponseJson>();
     }
 
     public void EntityToRequest()
