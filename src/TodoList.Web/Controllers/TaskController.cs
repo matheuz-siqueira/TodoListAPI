@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using FluentValidation;
 
@@ -30,7 +29,7 @@ public class TaskController : TodoListController
     ///<returns>Tarefa registrada</returns> 
     ///<response code="201">Sucesso</response> 
     ///<response code="400">Erro na requisição</response> 
-    [Authorize]
+
     [HttpPost("register-task")]
     public async Task<ActionResult<RegisterTaskResponseJson>> RegisterAsync(
         RegisterTaskRequestJson request)
@@ -43,5 +42,27 @@ public class TaskController : TodoListController
 
         var response = await _service.RegisterAsync(request);
         return StatusCode(201, response);
+    }
+
+    ///<summary> 
+    ///Obter todas as tarefas
+    ///</summary>
+    ///<remarks> 
+    ///{"title":"string","type":0}
+    ///</remarks> 
+    ///<params name="request">Filtro de pesquisa</params> 
+    ///<returns>Lista de tarefas</returns> 
+    ///<response code="200">Sucesso</response> 
+    ///<response code="204">Sucesso</response> 
+    [HttpPost("get-all")]
+    public async Task<ActionResult<IList<GetAllTaskResponseJson>>> GetAllAsync(
+        GetAllTasksRequestJson request)
+    {
+        var response = await _service.GetAllAsync(request);
+        if (!response.Any())
+        {
+            return NoContent();
+        }
+        return Ok(response);
     }
 }
