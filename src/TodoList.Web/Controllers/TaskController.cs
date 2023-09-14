@@ -20,7 +20,16 @@ public class TaskController : TodoListController
         _service = service;
         _registerTaskValidator = registerTaskValidator;
     }
-
+    ///<summary> 
+    ///Registrar uma tarefa
+    ///</summary>
+    ///<remarks> 
+    ///{"title":"string","description":"string","type":0,"startDate":"2023-09-14T01:33:01.549Z","finishDate":"2023-09-14T01:33:01.549Z","subTasks":[{"title":"string"}]}
+    ///</remarks>
+    ///<params name="request">Dados da tarefa</params> 
+    ///<returns>Tarefa registrada</returns> 
+    ///<response code="201">Sucesso</response> 
+    ///<response code="400">Erro na requisição</response> 
     [Authorize]
     [HttpPost("register-task")]
     public async Task<ActionResult<RegisterTaskResponseJson>> RegisterAsync(
