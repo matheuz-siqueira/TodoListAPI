@@ -11,9 +11,7 @@ public class RegisterTaskValidator : AbstractValidator<RegisterTaskRequestJson>
             .NotEmpty().WithMessage("title cannot be empty")
             .MinimumLength(3).WithMessage("title must have at least 3 characters");
 
-        RuleFor(task => task.Type)
-            .IsInEnum()
-            .NotEmpty().WithMessage("task must have a category");
+        RuleFor(task => task.Type).IsInEnum().WithMessage("task must have a category");
 
         RuleFor(task => task.StartDate)
             .NotEmpty().WithMessage("start date cannot be empty");
@@ -22,7 +20,7 @@ public class RegisterTaskValidator : AbstractValidator<RegisterTaskRequestJson>
             .NotEmpty().WithMessage("finish date cannot be empty");
 
         RuleFor(task => task.FinishDate)
-            .GreaterThan(task => task.FinishDate)
+            .GreaterThan(task => task.StartDate)
             .WithMessage("completion date must be greater than start date");
     }
 }

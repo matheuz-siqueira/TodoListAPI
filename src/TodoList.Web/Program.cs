@@ -2,7 +2,6 @@ using TodoList.Application.Mapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
-using System.Text;
 
 
 var builder = WebApplication.CreateBuilder(args);
