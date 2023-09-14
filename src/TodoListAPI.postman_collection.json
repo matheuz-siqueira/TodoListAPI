@@ -19,6 +19,7 @@
 									"pm.test(\"Validar registrar usuário com sucesso\", function(){",
 									"    pm.response.to.have.status(201);",
 									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json; ",
 									"    pm.response.to.have.jsonBody(\"name\"); ",
 									"    pm.response.to.have.jsonBody(\"token\");",
 									"",
@@ -238,6 +239,72 @@
 								"v1",
 								"users",
 								"update-password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Task",
+			"item": [
+				{
+					"name": "register-task",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar registrar tarefa com sucesso\", function(){",
+									"    pm.response.to.have.status(201); ",
+									"    pm.response.to.be.withBody; ",
+									"    pm.response.to.be.json; ",
+									"    pm.response.to.have.jsonBody(\"id\");",
+									"    pm.response.to.have.jsonBody(\"title\"); ",
+									"    pm.response.to.have.jsonBody(\"description\"); ",
+									"    pm.response.to.have.jsonBody(\"finishDate\"); ",
+									"",
+									"    let jsonData = pm.response.json();",
+									"    pm.environment.set(\"IDTASK\", jsonData.id);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"{{$randomJobTitle}}\",\n  \"description\": \"{{$randomJobDescriptor}}\",\n  \"type\": 0,\n  \"startDate\": \"2023-09-14T01:05:11.618Z\",\n  \"finishDate\": \"2023-12-20T01:05:11.618Z\",\n  \"subTasks\": [\n    {\n      \"title\": \"{{$randomJobTitle}}\"\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBASE}}/api/v1/tasks/register-task",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tasks",
+								"register-task"
 							]
 						}
 					},
