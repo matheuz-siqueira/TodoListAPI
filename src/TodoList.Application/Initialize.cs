@@ -11,6 +11,7 @@ using TodoList.Application.Services.User;
 using TodoList.Application.Validations;
 using TodoList.Application.Services.BaseServices;
 using TodoList.Application.DTOs.Task;
+using TodoList.Application.Services.Task;
 
 namespace TodoList.Application;
 public static class Initialize
@@ -29,6 +30,7 @@ public static class Initialize
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IUserLogged, UserLogged>();
+        services.AddScoped<ITaskService, TaskService>();
 
     }
 

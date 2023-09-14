@@ -9,9 +9,12 @@ namespace TodoList.Application.Services.Task;
 public class TaskService : ITaskService
 {
     private readonly ITaskRepository _repository;
-    private readonly UserLogged _logged;
+    private readonly IUserLogged _logged;
     private readonly IMapper _mapper;
-    public TaskService(ITaskRepository repository, UserLogged logged, IMapper mapper)
+    public TaskService(
+        ITaskRepository repository,
+        IUserLogged logged,
+        IMapper mapper)
     {
         _repository = repository;
         _logged = logged;
@@ -23,6 +26,7 @@ public class TaskService : ITaskService
         var task = _mapper.Map<TodoList.Domain.Models.Task>(request);
         var userId = _logged.GetCurrentUserId();
         task.UserId = userId;
+        task.Status = false;
         await _repository.RegisterAsync(task);
         var response = _mapper.Map<RegisterTaskResponseJson>(task);
         return response;
