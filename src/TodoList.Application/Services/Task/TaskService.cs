@@ -1,5 +1,6 @@
 using AutoMapper;
 using TodoList.Application.DTOs.Task;
+using TodoList.Application.Extensions;
 using TodoList.Application.Interfaces;
 using TodoList.Application.Services.BaseServices;
 using TodoList.Domain.Interfaces;
@@ -21,6 +22,16 @@ public class TaskService : ITaskService
         _mapper = mapper;
     }
 
+    public async Task<IList<GetAllTaskResponseJson>> GetAllAsync(GetAllTasksRequestJson request)
+    {
+        var userId = _logged.GetCurrentUserId();
+        var tasks = await _repository.GetAllAsync(userId);
+        tasks = Filter(request, tasks);
+        var response = _mapper.Map<IList<GetAllTaskResponseJson>>(tasks);
+        return response;
+
+    }
+
     public async Task<RegisterTaskResponseJson> RegisterAsync(RegisterTaskRequestJson request)
     {
         var task = _mapper.Map<TodoList.Domain.Models.Task>(request);
@@ -30,5 +41,20 @@ public class TaskService : ITaskService
         await _repository.RegisterAsync(task);
         var response = _mapper.Map<RegisterTaskResponseJson>(task);
         return response;
+    }
+
+    private static IList<TodoList.Domain.Models.Task> Filter(
+        GetAllTasksRequestJson request, IList<TodoList.Domain.Models.Task> tasks)
+    {
+        var filters = tasks;
+        if (request.Type.HasValue)
+        {
+            filters = tasks.Where(t => t.Type == request.Type.Value).ToList();
+        }
+        if (!string.IsNullOrWhiteSpace(request.Title))
+        {
+            filters = tasks.Where(t => t.Title.CompareNoCase(request.Title)).ToList();
+        }
+        return filters.OrderBy(t => t.Title).ToList();
     }
 }

@@ -19,6 +19,7 @@ public class MappingProfile : Profile
         CreateMap<AuthenticationRequestJson, User>();
         CreateMap<RegisterTaskRequestJson, Domain.Models.Task>();
         CreateMap<RegisterSubTaskRequestJson, Domain.Models.SubTask>();
+        CreateMap<GetAllTasksRequestJson, Domain.Models.Task>();
     }
 
     public void EntityToResponse()
@@ -26,6 +27,7 @@ public class MappingProfile : Profile
         CreateMap<User, GetProfileResponseJson>();
         CreateMap<Domain.Models.Task, RegisterTaskResponseJson>();
         CreateMap<Domain.Models.SubTask, RegisterSubTaskResponseJson>();
+        CreateMap<Domain.Models.Task, GetAllTaskResponseJson>();
     }
 
     public void EntityToRequest()

@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using TodoList.Domain.Interfaces;
 using TodoList.Infra.Data;
 
@@ -10,6 +11,13 @@ public class TaskRepository : ITaskRepository
     {
         _context = context;
     }
+
+    public async Task<IList<Domain.Models.Task>> GetAllAsync(int userId)
+    {
+        return await _context.Tasks.AsNoTracking()
+            .Where(t => t.UserId == userId).ToListAsync();
+    }
+
     public async Task<Domain.Models.Task> RegisterAsync(Domain.Models.Task task)
     {
         await _context.Tasks.AddAsync(task);
