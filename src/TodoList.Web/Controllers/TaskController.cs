@@ -3,7 +3,9 @@ using FluentValidation;
 
 using TodoList.Application.Interfaces;
 using TodoList.Application.DTOs.Task;
+using TodoList.Application.Exceptions.TodoListExceptions;
 using TodoList.Application.Exceptions.ValidatorsExceptions;
+
 
 namespace TodoList.Web.Controllers;
 
@@ -64,5 +66,26 @@ public class TaskController : TodoListController
             return NoContent();
         }
         return Ok(response);
+    }
+
+    ///<summary> 
+    ///Obter tarefa por ID
+    ///</summary> 
+    ///<params name="id">Id da tarefa</params> 
+    ///<returns>Tarefa</returns> 
+    ///<response code="200">Sucesso</response> 
+    ///<response code="404">Não encontrado</response>
+    [HttpGet("get-by-id/{id:int}")]
+    public async Task<ActionResult<GetTaskResponseJson>> GetByIdAsync(int id)
+    {
+        try
+        {
+            var response = await _service.GetByIdAsync(id);
+            return Ok(response);
+        }
+        catch (TaskNotFoundException e)
+        {
+            return NotFound(new { message = e.Message });
+        }
     }
 }
