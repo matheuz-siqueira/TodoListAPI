@@ -371,6 +371,63 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "get-by-id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar recuperar tarefa por id com sucesso\", function(){",
+									"    pm.response.to.have.status(200); ",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json; ",
+									"",
+									"    pm.response.to.have.jsonBody(\"id\"); ",
+									"    pm.response.to.have.jsonBody(\"status\");",
+									"    pm.response.to.have.jsonBody(\"title\");",
+									"    pm.response.to.have.jsonBody(\"description\");",
+									"    pm.response.to.have.jsonBody(\"finishDate\");",
+									"    pm.response.to.have.jsonBody(\"startDate\");",
+									"    pm.response.to.have.jsonBody(\"subTasks\");",
+									"",
+									"    let jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData.subTasks[0]).to.have.keys(\"id\", \"title\"); ",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URLBASE}}/api/v1/tasks/get-by-id/{{IDTASK}}",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tasks",
+								"get-by-id",
+								"{{IDTASK}}"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

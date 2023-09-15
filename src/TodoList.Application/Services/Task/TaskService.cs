@@ -1,8 +1,8 @@
 using AutoMapper;
 using TodoList.Application.DTOs.Task;
+using TodoList.Application.Exceptions.TodoListExceptions;
 using TodoList.Application.Extensions;
 using TodoList.Application.Interfaces;
-using TodoList.Application.Services.BaseServices;
 using TodoList.Domain.Interfaces;
 
 namespace TodoList.Application.Services.Task;
@@ -56,5 +56,17 @@ public class TaskService : ITaskService
             filters = tasks.Where(t => t.Title.CompareNoCase(request.Title)).ToList();
         }
         return filters.OrderBy(t => t.Title).ToList();
+    }
+
+    public async Task<GetTaskResponseJson> GetByIdAsync(int taskId)
+    {
+        var userId = _logged.GetCurrentUserId();
+        var task = await _repository.GetByIdAsync(userId, taskId);
+        if (task is null)
+        {
+            throw new TaskNotFoundException("task not found");
+        }
+        var response = _mapper.Map<GetTaskResponseJson>(task);
+        return response;
     }
 }

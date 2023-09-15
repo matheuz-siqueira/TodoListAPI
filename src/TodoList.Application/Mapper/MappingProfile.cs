@@ -28,6 +28,8 @@ public class MappingProfile : Profile
         CreateMap<Domain.Models.Task, RegisterTaskResponseJson>();
         CreateMap<Domain.Models.SubTask, RegisterSubTaskResponseJson>();
         CreateMap<Domain.Models.Task, GetAllTaskResponseJson>();
+        CreateMap<Domain.Models.Task, GetTaskResponseJson>();
+        CreateMap<Domain.Models.SubTask, GetSubTasksResponseJson>();
     }
 
     public void EntityToRequest()
