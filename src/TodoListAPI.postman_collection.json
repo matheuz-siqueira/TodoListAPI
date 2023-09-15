@@ -428,6 +428,50 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "New Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar remover tarefa com sucesso\", function(){",
+									"    pm.response.to.have.status(204); ",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URLBASE}}/api/v1/tasks/remove/{{IDTASK}}",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tasks",
+								"remove",
+								"{{IDTASK}}"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

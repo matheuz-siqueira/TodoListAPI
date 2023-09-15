@@ -69,4 +69,15 @@ public class TaskService : ITaskService
         var response = _mapper.Map<GetTaskResponseJson>(task);
         return response;
     }
+
+    public async System.Threading.Tasks.Task RemoveAsync(int taskId)
+    {
+        var userId = _logged.GetCurrentUserId();
+        var task = await _repository.GetByIdTracking(userId, taskId);
+        if (task is null)
+        {
+            throw new TaskNotFoundException("task not found");
+        }
+        await _repository.RemoveAsync(task);
+    }
 }

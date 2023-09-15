@@ -88,4 +88,28 @@ public class TaskController : TodoListController
             return NotFound(new { message = e.Message });
         }
     }
+
+    ///<summary> 
+    ///Remover tarefa por ID
+    ///</summary> 
+    ///<returns>Nada</returns> 
+    ///<params name="id">Id da tarefa</params> 
+    ///<response code="200">Sucesso</response>
+    ///<response code="204">Sucesso</response> 
+    ///<response code="401">Nâo autenticado</response>
+    ///<response code="404">Não encontrado</response> 
+
+    [HttpDelete("remove/{id:int}")]
+    public async Task<ActionResult> RemoveAsync(int id)
+    {
+        try
+        {
+            await _service.RemoveAsync(id);
+            return NoContent();
+        }
+        catch (TaskNotFoundException e)
+        {
+            return NotFound(new { message = e.Message });
+        }
+    }
 }
