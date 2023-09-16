@@ -12,14 +12,17 @@ public class TaskService : ITaskService
     private readonly ITaskRepository _repository;
     private readonly IUserLogged _logged;
     private readonly IMapper _mapper;
+    private readonly IHashidsService _hashids;
     public TaskService(
         ITaskRepository repository,
         IUserLogged logged,
-        IMapper mapper)
+        IMapper mapper,
+        IHashidsService hashids)
     {
         _repository = repository;
         _logged = logged;
         _mapper = mapper;
+        _hashids = hashids;
     }
 
     public async Task<IList<GetAllTaskResponseJson>> GetAllAsync(GetAllTasksRequestJson request)
@@ -58,10 +61,12 @@ public class TaskService : ITaskService
         return filters.OrderBy(t => t.Title).ToList();
     }
 
-    public async Task<GetTaskResponseJson> GetByIdAsync(int taskId)
+    public async Task<GetTaskResponseJson> GetByIdAsync(string taskId)
     {
         var userId = _logged.GetCurrentUserId();
-        var task = await _repository.GetByIdAsync(userId, taskId);
+        _hashids.IsHash(taskId);
+        var id = _hashids.Decode(taskId);
+        var task = await _repository.GetByIdAsync(userId, id);
         if (task is null)
         {
             throw new TaskNotFoundException("task not found");
@@ -70,10 +75,12 @@ public class TaskService : ITaskService
         return response;
     }
 
-    public async System.Threading.Tasks.Task RemoveAsync(int taskId)
+    public async System.Threading.Tasks.Task RemoveAsync(string taskId)
     {
         var userId = _logged.GetCurrentUserId();
-        var task = await _repository.GetByIdTracking(userId, taskId);
+        _hashids.IsHash(taskId);
+        var id = _hashids.Decode(taskId);
+        var task = await _repository.GetByIdTracking(userId, id);
         if (task is null)
         {
             throw new TaskNotFoundException("task not found");
@@ -81,10 +88,13 @@ public class TaskService : ITaskService
         await _repository.RemoveAsync(task);
     }
 
-    public async System.Threading.Tasks.Task UpdateAsync(UpdateTaskRequestJson request, int taskId)
+    public async System.Threading.Tasks.Task UpdateAsync(UpdateTaskRequestJson request,
+        string taskId)
     {
         var userId = _logged.GetCurrentUserId();
-        var task = await _repository.GetByIdTracking(userId, taskId);
+        _hashids.IsHash(taskId);
+        var id = _hashids.Decode(taskId);
+        var task = await _repository.GetByIdTracking(userId, id);
         if (task is null)
         {
             throw new TaskNotFoundException("task not found");

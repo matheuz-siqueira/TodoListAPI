@@ -12,6 +12,8 @@ using TodoList.Application.Validations;
 using TodoList.Application.Services.BaseServices;
 using TodoList.Application.DTOs.Task;
 using TodoList.Application.Services.Task;
+using HashidsNet;
+using TodoList.Application.Mapper;
 
 namespace TodoList.Application;
 public static class Initialize
@@ -22,6 +24,8 @@ public static class Initialize
         AddServices(services);
         AddValidators(services);
         AddAuthentication(services, configuration);
+        AddHashids(services, configuration);
+        AddAutoMapper(services);
     }
 
     public static void AddServices(this IServiceCollection services)
@@ -31,9 +35,22 @@ public static class Initialize
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IUserLogged, UserLogged>();
         services.AddScoped<ITaskService, TaskService>();
-
+        services.AddScoped<IHashidsService, HashidsService>();
     }
-
+    public static void AddHashids(this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services.AddScoped<IHashids>(_ =>
+            new Hashids(configuration.GetValue<string>("HashIds:Salt"), 3)
+        );
+    }
+    public static void AddAutoMapper(this IServiceCollection services)
+    {
+        services.AddScoped(provider => new AutoMapper.MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile(new MappingProfile(provider.GetService<IHashids>()));
+        }).CreateMapper());
+    }
     public static void AddValidators(this IServiceCollection services)
     {
         services.AddScoped<IValidator<RegisterUserRequestJson>, RegisterUserValidator>();
