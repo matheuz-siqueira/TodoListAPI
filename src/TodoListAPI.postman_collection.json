@@ -430,7 +430,60 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar atualizar tarefa com sucesso\", function(){",
+									"    pm.response.to.have.status(204); ",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"{{$randomJobTitle}}\",\n  \"description\": \"{{$randomJobDescriptor}}\",\n  \"type\": 0,\n  \"startDate\": \"2023-11-01T00:07:37.343Z\",\n  \"finishDate\": \"2023-11-30T00:07:37.343Z\",\n  \"subTasks\": [\n    {\n      \"title\": \"{{$randomJobTitle}}\"\n    }\n  ],\n  \"status\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBASE}}/api/v1/tasks/update/{{IDTASK}}",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tasks",
+								"update",
+								"{{IDTASK}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove",
 					"event": [
 						{
 							"listen": "test",

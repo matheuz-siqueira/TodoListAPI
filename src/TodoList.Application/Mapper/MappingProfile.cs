@@ -20,6 +20,7 @@ public class MappingProfile : Profile
         CreateMap<RegisterTaskRequestJson, Domain.Models.Task>();
         CreateMap<RegisterSubTaskRequestJson, Domain.Models.SubTask>();
         CreateMap<GetAllTasksRequestJson, Domain.Models.Task>();
+        CreateMap<UpdateTaskRequestJson, Domain.Models.Task>();
     }
 
     public void EntityToResponse()

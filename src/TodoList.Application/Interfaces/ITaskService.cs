@@ -7,4 +7,5 @@ public interface ITaskService
     Task<IList<GetAllTaskResponseJson>> GetAllAsync(GetAllTasksRequestJson request);
     Task<GetTaskResponseJson> GetByIdAsync(int taskId);
     Task RemoveAsync(int taskId);
+    Task UpdateAsync(UpdateTaskRequestJson request, int taskId);
 }
