@@ -78,8 +78,8 @@ public class TaskController : TodoListController
     ///<returns>Tarefa</returns> 
     ///<response code="200">Sucesso</response> 
     ///<response code="404">Não encontrado</response>
-    [HttpGet("get-by-id/{id:int}")]
-    public async Task<ActionResult<GetTaskResponseJson>> GetByIdAsync(int id)
+    [HttpGet("get-by-id/{id}")]
+    public async Task<ActionResult<GetTaskResponseJson>> GetByIdAsync(string id)
     {
         try
         {
@@ -109,8 +109,8 @@ public class TaskController : TodoListController
 
 
 
-    [HttpPut("update/{id:int}")]
-    public async Task<ActionResult> UpdateAsync(UpdateTaskRequestJson request, int id)
+    [HttpPut("update/{id}")]
+    public async Task<ActionResult> UpdateAsync(UpdateTaskRequestJson request, string id)
     {
         var result = _updateTaskValidator.Validate(request);
         if (!result.IsValid)
@@ -138,8 +138,8 @@ public class TaskController : TodoListController
     ///<response code="401">Nâo autenticado</response>
     ///<response code="404">Não encontrado</response> 
 
-    [HttpDelete("remove/{id:int}")]
-    public async Task<ActionResult> RemoveAsync(int id)
+    [HttpDelete("remove/{id}")]
+    public async Task<ActionResult> RemoveAsync(string id)
     {
         try
         {
