@@ -1,8 +1,7 @@
 namespace TodoList.Application.DTOs.Task;
 
-public class GetSubTasksResponseJson
+public class UpdateSubTaskRequestJson
 {
-    public string Id { get; set; }
     public string Title { get; set; }
     public bool Status { get; set; }
 }
