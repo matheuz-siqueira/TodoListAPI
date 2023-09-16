@@ -14,12 +14,15 @@ public class TaskController : TodoListController
 {
     private readonly ITaskService _service;
     private readonly IValidator<RegisterTaskRequestJson> _registerTaskValidator;
+    private readonly IValidator<UpdateTaskRequestJson> _updateTaskValidator;
 
     public TaskController(ITaskService service,
-        IValidator<RegisterTaskRequestJson> registerTaskValidator)
+        IValidator<RegisterTaskRequestJson> registerTaskValidator,
+        IValidator<UpdateTaskRequestJson> updateTaskValidator)
     {
         _service = service;
         _registerTaskValidator = registerTaskValidator;
+        _updateTaskValidator = updateTaskValidator;
     }
     ///<summary> 
     ///Registrar uma tarefa
@@ -82,6 +85,42 @@ public class TaskController : TodoListController
         {
             var response = await _service.GetByIdAsync(id);
             return Ok(response);
+        }
+        catch (TaskNotFoundException e)
+        {
+            return NotFound(new { message = e.Message });
+        }
+    }
+
+    ///<summary> 
+    ///Atualizar tarefa
+    ///</summary> 
+    ///<remarks> 
+    ///
+    ///</remarks> 
+    ///<params name="id">Id da tarefa</params> 
+    ///<params name="request">Dados da tarefa</params> 
+    ///<returns>Nada</returns>
+    ///<response code="200">Sucesso</response>
+    ///<response code="204">Sucesso</response>
+    ///<response code="400">Erro na requisição</response>
+    ///<response code="401">Não autenticado</response>
+    ///<response code="404">Não encontrado</response>
+
+
+
+    [HttpPut("update/{id:int}")]
+    public async Task<ActionResult> UpdateAsync(UpdateTaskRequestJson request, int id)
+    {
+        var result = _updateTaskValidator.Validate(request);
+        if (!result.IsValid)
+        {
+            return BadRequest(result.Errors.ToCustomValidationFailure());
+        }
+        try
+        {
+            await _service.UpdateAsync(request, id);
+            return NoContent();
         }
         catch (TaskNotFoundException e)
         {

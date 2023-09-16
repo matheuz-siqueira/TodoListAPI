@@ -29,6 +29,7 @@ public class TaskRepository : ITaskRepository
     public async Task<Domain.Models.Task> GetByIdTracking(int userId, int taskId)
     {
         return await _context.Tasks.Where(t => t.UserId == userId)
+            .Include(t => t.SubTasks)
             .FirstOrDefaultAsync(t => t.Id == taskId);
     }
 
@@ -42,6 +43,11 @@ public class TaskRepository : ITaskRepository
     public async System.Threading.Tasks.Task RemoveAsync(TodoList.Domain.Models.Task task)
     {
         _context.Tasks.Remove(task);
+        await _context.SaveChangesAsync();
+    }
+
+    public async System.Threading.Tasks.Task UpdateAsync()
+    {
         await _context.SaveChangesAsync();
     }
 }

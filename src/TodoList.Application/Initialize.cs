@@ -40,6 +40,7 @@ public static class Initialize
         services.AddScoped<IValidator<AuthenticationRequestJson>, AuthenticationValidator>();
         services.AddScoped<IValidator<UpdatePasswordRequestJson>, UpdatePasswordValidator>();
         services.AddScoped<IValidator<RegisterTaskRequestJson>, RegisterTaskValidator>();
+        services.AddScoped<IValidator<UpdateTaskRequestJson>, UpdateTaskValidator>();
     }
 
     public static void AddAuthentication(this IServiceCollection services,
