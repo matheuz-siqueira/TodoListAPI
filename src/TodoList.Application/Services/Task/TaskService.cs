@@ -45,22 +45,6 @@ public class TaskService : ITaskService
         var response = _mapper.Map<RegisterTaskResponseJson>(task);
         return response;
     }
-
-    private static IList<TodoList.Domain.Models.Task> Filter(
-        GetAllTasksRequestJson request, IList<TodoList.Domain.Models.Task> tasks)
-    {
-        var filters = tasks;
-        if (request.Type.HasValue)
-        {
-            filters = tasks.Where(t => t.Type == request.Type.Value).ToList();
-        }
-        if (!string.IsNullOrWhiteSpace(request.Title))
-        {
-            filters = tasks.Where(t => t.Title.CompareNoCase(request.Title)).ToList();
-        }
-        return filters.OrderBy(t => t.Title).ToList();
-    }
-
     public async Task<GetTaskResponseJson> GetByIdAsync(string taskId)
     {
         var userId = _logged.GetCurrentUserId();
@@ -101,5 +85,19 @@ public class TaskService : ITaskService
         }
         _mapper.Map(request, task);
         await _repository.UpdateAsync();
+    }
+    private static IList<TodoList.Domain.Models.Task> Filter(
+       GetAllTasksRequestJson request, IList<TodoList.Domain.Models.Task> tasks)
+    {
+        var filters = tasks;
+        if (request.Type.HasValue)
+        {
+            filters = tasks.Where(t => t.Type == request.Type.Value).ToList();
+        }
+        if (!string.IsNullOrWhiteSpace(request.Title))
+        {
+            filters = tasks.Where(t => t.Title.CompareNoCase(request.Title)).ToList();
+        }
+        return filters.OrderBy(t => t.Title).ToList();
     }
 }

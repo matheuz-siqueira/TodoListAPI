@@ -24,6 +24,7 @@ public class MappingProfile : Profile
         CreateMap<RegisterSubTaskRequestJson, Domain.Models.SubTask>();
         CreateMap<GetAllTasksRequestJson, Domain.Models.Task>();
         CreateMap<UpdateTaskRequestJson, Domain.Models.Task>();
+        CreateMap<UpdateSubTaskRequestJson, Domain.Models.SubTask>();
     }
 
     public void EntityToResponse()
