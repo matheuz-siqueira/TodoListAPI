@@ -14,6 +14,7 @@ using TodoList.Application.DTOs.Task;
 using TodoList.Application.Services.Task;
 using HashidsNet;
 using TodoList.Application.Mapper;
+using TodoList.Application.Services.Note;
 
 namespace TodoList.Application;
 public static class Initialize
@@ -36,6 +37,7 @@ public static class Initialize
         services.AddScoped<IUserLogged, UserLogged>();
         services.AddScoped<ITaskService, TaskService>();
         services.AddScoped<IHashidsService, HashidsService>();
+        services.AddScoped<INoteService, NoteService>();
     }
     public static void AddHashids(this IServiceCollection services,
         IConfiguration configuration)

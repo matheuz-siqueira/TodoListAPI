@@ -10,6 +10,7 @@ public class Context : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Domain.Models.Task> Tasks { get; set; }
     public DbSet<SubTask> SubTasks { get; set; }
+    public DbSet<Note> Notes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

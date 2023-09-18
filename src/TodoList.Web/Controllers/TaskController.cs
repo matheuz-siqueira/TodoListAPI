@@ -28,7 +28,7 @@ public class TaskController : TodoListController
     ///Registrar uma tarefa
     ///</summary>
     ///<remarks> 
-    ///{"title":"string","description":"string","type":0,"startDate":"2023-09-14T01:33:01.549Z","finishDate":"2023-09-14T01:33:01.549Z","subTasks":[{"title":"string"}]}
+    ///{"title":"string","description":"string","type":0, "finishDate":"2023-09-14T01:33:01.549Z","subTasks":[{"title":"string"}]}
     ///</remarks>
     ///<params name="request">Dados da tarefa</params> 
     ///<returns>Tarefa registrada</returns> 
@@ -96,7 +96,7 @@ public class TaskController : TodoListController
     ///Atualizar tarefa
     ///</summary> 
     ///<remarks> 
-    ///
+    ///{"title":"string","description":"string","type":0, "finishDate":"2023-09-14T01:33:01.549Z","subTasks":[{"title":"string"}]}
     ///</remarks> 
     ///<params name="id">Id da tarefa</params> 
     ///<params name="request">Dados da tarefa</params> 
