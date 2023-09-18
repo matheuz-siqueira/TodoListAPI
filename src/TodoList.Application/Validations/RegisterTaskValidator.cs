@@ -13,14 +13,7 @@ public class RegisterTaskValidator : AbstractValidator<RegisterTaskRequestJson>
 
         RuleFor(task => task.Type).IsInEnum().WithMessage("task must have a category");
 
-        RuleFor(task => task.StartDate)
-            .NotEmpty().WithMessage("start date cannot be empty");
-
         RuleFor(task => task.FinishDate)
             .NotEmpty().WithMessage("finish date cannot be empty");
-
-        RuleFor(task => task.FinishDate)
-            .GreaterThan(task => task.StartDate)
-            .WithMessage("completion date must be greater than start date");
     }
 }
