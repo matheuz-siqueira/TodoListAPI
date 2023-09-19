@@ -1,5 +1,6 @@
 using AutoMapper;
 using HashidsNet;
+using TodoList.Application.DTOs.Note;
 using TodoList.Application.DTOs.Task;
 using TodoList.Application.DTOs.User;
 using TodoList.Domain.Models;
@@ -25,6 +26,7 @@ public class MappingProfile : Profile
         CreateMap<GetAllTasksRequestJson, Domain.Models.Task>();
         CreateMap<UpdateTaskRequestJson, Domain.Models.Task>();
         CreateMap<UpdateSubTaskRequestJson, Domain.Models.SubTask>();
+        CreateMap<RegisterNoteRequestJson, Domain.Models.Note>();
     }
 
     public void EntityToResponse()
@@ -42,6 +44,9 @@ public class MappingProfile : Profile
             .ForMember(d => d.Id, cfg => cfg.MapFrom(s => _hashids.Encode(s.Id)));
 
         CreateMap<Domain.Models.SubTask, GetSubTasksResponseJson>()
+            .ForMember(d => d.Id, cfg => cfg.MapFrom(s => _hashids.Encode(s.Id)));
+
+        CreateMap<Domain.Models.Note, RegisterNoteResponseJson>()
             .ForMember(d => d.Id, cfg => cfg.MapFrom(s => _hashids.Encode(s.Id)));
     }
 
