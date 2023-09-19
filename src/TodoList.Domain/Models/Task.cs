@@ -12,6 +12,7 @@ public class Task : BaseEntity
 
     //navigation property 
     public User User { get; set; }
+    public Note Note { get; set; }
     public IList<SubTask> SubTasks { get; set; }
 
     //foreign key 

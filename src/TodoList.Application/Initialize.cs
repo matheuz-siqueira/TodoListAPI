@@ -15,6 +15,7 @@ using TodoList.Application.Services.Task;
 using HashidsNet;
 using TodoList.Application.Mapper;
 using TodoList.Application.Services.Note;
+using TodoList.Application.DTOs.Note;
 
 namespace TodoList.Application;
 public static class Initialize
@@ -60,6 +61,7 @@ public static class Initialize
         services.AddScoped<IValidator<UpdatePasswordRequestJson>, UpdatePasswordValidator>();
         services.AddScoped<IValidator<RegisterTaskRequestJson>, RegisterTaskValidator>();
         services.AddScoped<IValidator<UpdateTaskRequestJson>, UpdateTaskValidator>();
+        services.AddScoped<IValidator<RegisterNoteRequestJson>, RegisterNoteValidator>();
     }
 
     public static void AddAuthentication(this IServiceCollection services,

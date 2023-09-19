@@ -7,4 +7,5 @@ public sealed class User : BaseEntity
 
     //navigation property 
     public IList<Task> Tasks { get; set; }
+    public IList<Note> Notes { get; set; }
 }

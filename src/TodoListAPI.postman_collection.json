@@ -288,7 +288,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"title\": \"{{$randomJobTitle}}\",\n  \"description\": \"{{$randomJobDescriptor}}\",\n  \"type\": 0,\n  \"startDate\": \"2023-09-14T01:05:11.618Z\",\n  \"finishDate\": \"2023-12-20T01:05:11.618Z\",\n  \"subTasks\": [\n    {\n      \"title\": \"{{$randomJobTitle}}\"\n    }\n  ]\n}",
+							"raw": "{\n  \"title\": \"{{$randomJobTitle}}\",\n  \"description\": \"{{$randomJobDescriptor}}\",\n  \"type\": 0,\n  \"finishDate\": \"2023-12-20T01:05:11.618Z\",\n  \"subTasks\": [\n    {\n      \"title\": \"{{$randomJobTitle}}\"\n    }\n  ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -389,11 +389,11 @@
 									"    pm.response.to.have.jsonBody(\"title\");",
 									"    pm.response.to.have.jsonBody(\"description\");",
 									"    pm.response.to.have.jsonBody(\"finishDate\");",
-									"    pm.response.to.have.jsonBody(\"startDate\");",
 									"    pm.response.to.have.jsonBody(\"subTasks\");",
 									"",
 									"    let jsonData = pm.response.json(); ",
-									"    pm.expect(jsonData.subTasks[0]).to.have.keys(\"id\", \"title\"); ",
+									"    pm.expect(jsonData.subTasks[0]).to.have.keys(\"id\", \"title\", \"status\");",
+									"     ",
 									"})"
 								],
 								"type": "text/javascript"
@@ -459,7 +459,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"title\": \"{{$randomJobTitle}}\",\n  \"description\": \"{{$randomJobDescriptor}}\",\n  \"type\": 0,\n  \"startDate\": \"2023-11-01T00:07:37.343Z\",\n  \"finishDate\": \"2023-11-30T00:07:37.343Z\",\n  \"subTasks\": [\n    {\n      \"title\": \"{{$randomJobTitle}}\"\n    }\n  ],\n  \"status\": true\n}",
+							"raw": "{\n  \"title\": \"{{$randomJobTitle}}\",\n  \"description\": \"{{$randomJobDescriptor}}\",\n  \"type\": 0,\n  \"finishDate\": \"2023-11-30T00:07:37.343Z\",\n  \"subTasks\": [\n    {\n      \"title\": \"{{$randomJobTitle}}\"\n    }\n  ],\n  \"status\": true\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -521,6 +521,71 @@
 								"tasks",
 								"remove",
 								"{{IDTASK}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Note",
+			"item": [
+				{
+					"name": "register-note",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar registrar anotação com sucesso\", function(){",
+									"    pm.response.to.have.status(200); ",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json; ",
+									"",
+									"    pm.response.to.have.jsonBody(\"id\");",
+									"    pm.response.to.have.jsonBody(\"annotation\");",
+									"",
+									"    let jsonData = pm.response.json(); ",
+									"    pm.environment.set(\"IDNOTE\", jsonData.id); ",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"annotation\": \"{{$randomLoremText}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBASE}}/api/v1/notes/register-note",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"notes",
+								"register-note"
 							]
 						}
 					},
