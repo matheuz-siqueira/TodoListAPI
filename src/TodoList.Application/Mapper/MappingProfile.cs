@@ -48,6 +48,9 @@ public class MappingProfile : Profile
 
         CreateMap<Domain.Models.Note, RegisterNoteResponseJson>()
             .ForMember(d => d.Id, cfg => cfg.MapFrom(s => _hashids.Encode(s.Id)));
+
+        CreateMap<Domain.Models.Note, GetNoteResponseJson>()
+            .ForMember(d => d.Id, cfg => cfg.MapFrom(s => _hashids.Encode(s.Id)));
     }
 
     public void EntityToRequest()
