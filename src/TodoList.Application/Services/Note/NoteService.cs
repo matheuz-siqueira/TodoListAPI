@@ -24,6 +24,14 @@ public class NoteService : INoteService
         _hashids = hashids;
     }
 
+    public async Task<IList<GetNoteResponseJson>> GetAllAsync()
+    {
+        var userId = _logged.GetCurrentUserId();
+        var notes = await _repository.GetAllAsync(userId);
+        var response = _mapper.Map<IList<GetNoteResponseJson>>(notes);
+        return response;
+    }
+
     public async Task<GetNoteResponseJson> GetByIdAsync(string noteId)
     {
         var userId = _logged.GetCurrentUserId();

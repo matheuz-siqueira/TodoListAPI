@@ -569,7 +569,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"annotation\": \"{{$randomLoremText}}\"\n}",
+							"raw": "{\n    \"annotation\": \"{{$randomWords}}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -586,6 +586,55 @@
 								"v1",
 								"notes",
 								"register-note"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-all",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verificar se recuperou todas as anotações com sucesso\", function(){",
+									"    pm.response.to.have.status(200);",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"",
+									"    let jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.be.an('array'); ",
+									"    pm.expect(jsonData[0]).to.have.keys(\"id\", \"annotation\"); ",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URLBASE}}/api/v1/notes/get-all",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"notes",
+								"get-all"
 							]
 						}
 					},

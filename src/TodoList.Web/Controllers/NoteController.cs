@@ -71,4 +71,22 @@ public class NoteController : TodoListController
             return BadRequest(new { message = e.Message });
         }
     }
+
+    ///<summary> 
+    ///Obter todas as anotações
+    ///</summary> 
+    ///<returns>Lista de anotações</returns> 
+    ///<response code="200">Sucesso</response> 
+    ///<response code="204">Sucesso</response> 
+    ///<response code="401">Não autenticado</response>
+    [HttpGet("get-all")]
+    public async Task<ActionResult<IList<GetNoteResponseJson>>> GetAllAsync()
+    {
+        var response = await _service.GetAllAsync();
+        if (!response.Any())
+        {
+            return NoContent();
+        }
+        return Ok(response);
+    }
 }
