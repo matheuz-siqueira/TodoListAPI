@@ -12,9 +12,15 @@ public class NoteRepository : INoteRepository
         _context = context;
     }
 
-    public Task<Domain.Models.Note> GetByIdAsync(int userId, int noteId)
+    public async Task<IList<Domain.Models.Note>> GetAllAsync(int userId)
     {
-        return _context.Notes.AsNoTracking()
+        return await _context.Notes.AsNoTracking()
+            .Where(note => note.UserId == userId).ToListAsync();
+    }
+
+    public async Task<Domain.Models.Note> GetByIdAsync(int userId, int noteId)
+    {
+        return await _context.Notes.AsNoTracking()
             .Where(note => note.UserId == userId)
             .FirstOrDefaultAsync(note => note.Id == noteId);
     }
