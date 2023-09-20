@@ -1,5 +1,6 @@
 using AutoMapper;
 using TodoList.Application.DTOs.Note;
+using TodoList.Application.Exceptions.TodoListExceptions;
 using TodoList.Application.Interfaces;
 using TodoList.Domain.Interfaces;
 using TodoList.Infra.Repositories.Note;
@@ -11,12 +12,32 @@ public class NoteService : INoteService
     private readonly INoteRepository _repository;
     private readonly IUserLogged _logged;
     private readonly IMapper _mapper;
-    public NoteService(INoteRepository repository, IUserLogged logged, IMapper mapper)
+    private readonly IHashidsService _hashids;
+    public NoteService(INoteRepository repository,
+        IUserLogged logged,
+        IMapper mapper,
+        IHashidsService hashids)
     {
         _repository = repository;
         _logged = logged;
         _mapper = mapper;
+        _hashids = hashids;
     }
+
+    public async Task<GetNoteResponseJson> GetByIdAsync(string noteId)
+    {
+        var userId = _logged.GetCurrentUserId();
+        _hashids.IsHash(noteId);
+        var id = _hashids.Decode(noteId);
+        var note = await _repository.GetByIdAsync(userId, id);
+        if (note is null)
+        {
+            throw new NoteNotFoundException("note not found");
+        }
+        var response = _mapper.Map<GetNoteResponseJson>(note);
+        return response;
+    }
+
     public async Task<RegisterNoteResponseJson> RegisterAsync(RegisterNoteRequestJson request)
     {
         var userId = _logged.GetCurrentUserId();
