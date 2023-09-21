@@ -25,6 +25,12 @@ public class NoteRepository : INoteRepository
             .FirstOrDefaultAsync(note => note.Id == noteId);
     }
 
+    public async Task<Domain.Models.Note> GetByIdTracking(int userId, int noteId)
+    {
+        return await _context.Notes.Where(note => note.UserId == userId)
+            .FirstOrDefaultAsync(note => note.Id == noteId);
+    }
+
     public async Task<Domain.Models.Note> RegisterAsync(Domain.Models.Note note)
     {
         await _context.Notes.AddAsync(note);
@@ -35,6 +41,11 @@ public class NoteRepository : INoteRepository
     public async System.Threading.Tasks.Task RemoveAsync(Domain.Models.Note note)
     {
         _context.Notes.Remove(note);
+        await _context.SaveChangesAsync();
+    }
+
+    public async System.Threading.Tasks.Task UpdateAsync()
+    {
         await _context.SaveChangesAsync();
     }
 }
