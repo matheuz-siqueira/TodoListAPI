@@ -62,6 +62,7 @@ public static class Initialize
         services.AddScoped<IValidator<RegisterTaskRequestJson>, RegisterTaskValidator>();
         services.AddScoped<IValidator<UpdateTaskRequestJson>, UpdateTaskValidator>();
         services.AddScoped<IValidator<RegisterNoteRequestJson>, RegisterNoteValidator>();
+        services.AddScoped<IValidator<UpdateNoteRequestJson>, UpdateNoteValidator>();
     }
 
     public static void AddAuthentication(this IServiceCollection services,

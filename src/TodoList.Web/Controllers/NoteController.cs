@@ -13,11 +13,14 @@ public class NoteController : TodoListController
 {
     private readonly INoteService _service;
     private readonly IValidator<RegisterNoteRequestJson> _validatorRegisterNote;
+    private readonly IValidator<UpdateNoteRequestJson> _validatorUpdateNote;
     public NoteController(INoteService service,
-        IValidator<RegisterNoteRequestJson> validatorRegisterNote)
+        IValidator<RegisterNoteRequestJson> validatorRegisterNote,
+        IValidator<UpdateNoteRequestJson> validatorUpdateNote)
     {
         _service = service;
         _validatorRegisterNote = validatorRegisterNote;
+        _validatorUpdateNote = validatorUpdateNote;
     }
 
     ///<summary> 
@@ -116,6 +119,43 @@ public class NoteController : TodoListController
         catch (NoteNotFoundException e)
         {
             return NotFound(new { message = e.Message });
+        }
+    }
+
+    ///<summary> 
+    ///Atualizar anotação
+    ///</summary> 
+    ///<remarks> 
+    ///{"annotation": "string"}
+    ///</remarks> 
+    ///<params name="id">Id da anotação</params> 
+    ///<params name="request">Texto da anotação</params> 
+    ///<returns>Nada</returns> 
+    ///<response code="200">Sucesso</response> 
+    ///<response code="204">Sucesso</response>
+    ///<response code="400">Erro na requisição</response>
+    ///<response code="401">Não autenticado</response>
+    ///<response code="404">Não encontrado</response>
+    [HttpPut("update/{id}")]
+    public async Task<ActionResult> UpdateAsync(string id, UpdateNoteRequestJson request)
+    {
+        var result = _validatorUpdateNote.Validate(request);
+        if (!result.IsValid)
+        {
+            return BadRequest(result.Errors.ToCustomValidationFailure());
+        }
+        try
+        {
+            await _service.UpdateAsync(id, request);
+            return NoContent();
+        }
+        catch (NoteNotFoundException e)
+        {
+            return NotFound(new { message = e.Message });
+        }
+        catch (InvalidIDException e)
+        {
+            return BadRequest(new { message = e.Message });
         }
     }
 }
