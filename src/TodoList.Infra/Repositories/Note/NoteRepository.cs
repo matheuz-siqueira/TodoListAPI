@@ -31,4 +31,10 @@ public class NoteRepository : INoteRepository
         await _context.SaveChangesAsync();
         return note;
     }
+
+    public async System.Threading.Tasks.Task RemoveAsync(Domain.Models.Note note)
+    {
+        _context.Notes.Remove(note);
+        await _context.SaveChangesAsync();
+    }
 }

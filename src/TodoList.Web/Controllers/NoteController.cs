@@ -89,4 +89,33 @@ public class NoteController : TodoListController
         }
         return Ok(response);
     }
+
+
+    ///<summary> 
+    ///Remover uma anotação
+    ///</summary> 
+    ///<params name="id">Id da anotação</params> 
+    ///<returns>Nada</returns> 
+    ///<response code="200">Sucesso</response> 
+    ///<response code="204">Sucesso</response> 
+    ///<response code="400">Erro na requisição</response> 
+    ///<response code="401">Não autenticado</response> 
+    ///<response code="404">Anotação não encontrada</response> 
+    [HttpDelete("remove/{id}")]
+    public async Task<ActionResult> RemoveAsync(string id)
+    {
+        try
+        {
+            await _service.RemoveAsync(id);
+            return NoContent();
+        }
+        catch (InvalidIDException e)
+        {
+            return BadRequest(new { message = e.Message });
+        }
+        catch (NoteNotFoundException e)
+        {
+            return NotFound(new { message = e.Message });
+        }
+    }
 }

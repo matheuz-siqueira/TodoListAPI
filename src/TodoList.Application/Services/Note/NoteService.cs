@@ -56,4 +56,17 @@ public class NoteService : INoteService
         return response;
 
     }
+
+    public async System.Threading.Tasks.Task RemoveAsync(string id)
+    {
+        var userId = _logged.GetCurrentUserId();
+        _hashids.IsHash(id);
+        var noteId = _hashids.Decode(id);
+        var note = await _repository.GetByIdAsync(userId, noteId);
+        if (note is null)
+        {
+            throw new NoteNotFoundException("note not found");
+        }
+        await _repository.RemoveAsync(note);
+    }
 }
