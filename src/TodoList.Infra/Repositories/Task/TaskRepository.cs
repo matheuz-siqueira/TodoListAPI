@@ -14,7 +14,7 @@ public class TaskRepository : ITaskRepository
     public async Task<IList<Domain.Models.Task>> GetAllAsync(int userId)
     {
         return await _context.Tasks.AsNoTracking()
-            .Where(t => t.UserId == userId).ToListAsync();
+            .Where(t => t.UserId == userId && t.Status == false).ToListAsync();
     }
 
     public async Task<Domain.Models.Task> GetByIdAsync(int userId, int taskId)
