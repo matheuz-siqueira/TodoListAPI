@@ -11,7 +11,6 @@ public class TaskRepository : ITaskRepository
     {
         _context = context;
     }
-
     public async Task<IList<Domain.Models.Task>> GetAllAsync(int userId)
     {
         return await _context.Tasks.AsNoTracking()

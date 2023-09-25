@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TodoList.Infra.Data;
 using TodoList.Infra.Repositories.Task;
 using TodoList.Infra.Repositories.Note;
+using TodoList.Infra.Repositories.Dashboard;
 
 namespace TodoList.Infra
 {
@@ -35,6 +36,7 @@ namespace TodoList.Infra
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<INoteRepository, NoteRepository>();
+            services.AddScoped<IDashboardRepository, DashboardRepository>();
         }
 
     }
