@@ -1,0 +1,8 @@
+using TodoList.Application.DTOs.Dashboard;
+
+namespace TodoList.Application.Interfaces;
+
+public interface IDashboardService
+{
+    Task<AllCompletedResponseJson> AllCompletedAsync();
+}
