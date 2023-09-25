@@ -17,4 +17,10 @@ public class DashboardRepository : IDashboardRepository
             .Where(task => task.UserId == userId)
             .CountAsync(task => task.Status == true);
     }
+    public async Task<int> AllPedingAsync(int userId)
+    {
+        return await _context.Tasks.AsNoTracking()
+            .Where(task => task.UserId == userId)
+            .CountAsync(task => task.Status == false);
+    }
 }

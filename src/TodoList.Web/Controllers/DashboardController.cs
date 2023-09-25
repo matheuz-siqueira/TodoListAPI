@@ -27,4 +27,18 @@ public class DashboardController : TodoListController
         var response = await _service.AllCompletedAsync();
         return Ok(response);
     }
+
+    ///<summary>
+    ///Obter total de tarefas pendentes
+    ///</summary> 
+    ///<response code="200">Sucesso</response> 
+    ///<response code="204">Sucesso</response>
+    ///<response code="400">Erro na requisição</response> 
+    ///<response code="401">Não autenticado</response>
+    [HttpGet("all-pending")]
+    public async Task<ActionResult<AllPendingResponseJson>> AllPendingAsync()
+    {
+        var response = await _service.AllPendingAsync();
+        return Ok(response);
+    }
 }
