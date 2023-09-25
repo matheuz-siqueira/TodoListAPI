@@ -122,6 +122,10 @@ public class TaskController : TodoListController
             await _service.UpdateAsync(request, id);
             return NoContent();
         }
+        catch (InvalidIDException e)
+        {
+            return BadRequest(new { message = e.Message });
+        }
         catch (TaskNotFoundException e)
         {
             return NotFound(new { message = e.Message });

@@ -5,4 +5,5 @@ namespace TodoList.Application.Interfaces;
 public interface IDashboardService
 {
     Task<AllCompletedResponseJson> AllCompletedAsync();
+    Task<AllPendingResponseJson> AllPendingAsync();
 }

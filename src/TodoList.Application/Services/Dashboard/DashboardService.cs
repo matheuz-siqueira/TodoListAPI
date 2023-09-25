@@ -22,4 +22,14 @@ public class DashboardService : IDashboardService
             AllCompleted = allCompleted
         };
     }
+
+    public async Task<AllPendingResponseJson> AllPendingAsync()
+    {
+        var userId = _logged.GetCurrentUserId();
+        var allPending = await _repository.AllPedingAsync(userId);
+        return new AllPendingResponseJson
+        {
+            AllPending = allPending
+        };
+    }
 }
