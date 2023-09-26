@@ -1,5 +1,6 @@
 using AutoMapper;
 using HashidsNet;
+using TodoList.Application.DTOs.Dashboard;
 using TodoList.Application.DTOs.Note;
 using TodoList.Application.DTOs.Task;
 using TodoList.Application.DTOs.User;
@@ -51,6 +52,9 @@ public class MappingProfile : Profile
             .ForMember(d => d.Id, cfg => cfg.MapFrom(s => _hashids.Encode(s.Id)));
 
         CreateMap<Domain.Models.Note, GetNoteResponseJson>()
+            .ForMember(d => d.Id, cfg => cfg.MapFrom(s => _hashids.Encode(s.Id)));
+
+        CreateMap<Domain.Models.Record, RecordResponseJson>()
             .ForMember(d => d.Id, cfg => cfg.MapFrom(s => _hashids.Encode(s.Id)));
     }
 

@@ -41,4 +41,23 @@ public class DashboardController : TodoListController
         var response = await _service.AllPendingAsync();
         return Ok(response);
     }
+
+    ///<summary> 
+    ///Obter todas as tarefas concluídas ordenadas por data de conclusão
+    ///</summary>
+    ///<returns>Lista de tarefas concluídas</returns>
+    ///<response code="200">Sucesso</response> 
+    ///<response code="204">Sucesso</response>
+    ///<response code="400">Erro na requisição</response> 
+    ///<response code="401">Não autenticado</response>  
+    [HttpGet("record-completed")]
+    public async Task<ActionResult<IList<RecordResponseJson>>> RecordAsync()
+    {
+        var response = await _service.RercordAsync();
+        if (!response.Any())
+        {
+            return NoContent();
+        }
+        return Ok(response);
+    }
 }

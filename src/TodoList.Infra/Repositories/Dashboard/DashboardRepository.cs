@@ -23,4 +23,13 @@ public class DashboardRepository : IDashboardRepository
             .Where(task => task.UserId == userId)
             .CountAsync(task => task.Status == false);
     }
+
+    public async Task<List<Domain.Models.Record>> RecordAsync(int userId)
+    {
+        return await _context.Records.AsNoTracking()
+            .Where(r => r.UserId == userId)
+            .Include(r => r.Tasks)
+            .OrderByDescending(r => r.Date)
+            .ToListAsync();
+    }
 }

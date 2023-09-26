@@ -7,6 +7,7 @@ using TodoList.Infra.Data;
 using TodoList.Infra.Repositories.Task;
 using TodoList.Infra.Repositories.Note;
 using TodoList.Infra.Repositories.Dashboard;
+using TodoList.Infra.Repositories.Record;
 
 namespace TodoList.Infra
 {
@@ -37,6 +38,7 @@ namespace TodoList.Infra
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<INoteRepository, NoteRepository>();
             services.AddScoped<IDashboardRepository, DashboardRepository>();
+            services.AddScoped<IRecordRepository, RecordRepository>();
         }
 
     }

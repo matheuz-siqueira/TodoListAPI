@@ -9,14 +9,13 @@ public class Task : BaseEntity
     public TaskEnum Type { get; set; }
     public DateTime FinishDate { get; set; }
     public bool Status { get; set; }
+    public DateOnly CompletedAt { get; set; }
 
     //navigation property 
     public User User { get; set; }
-    public Note Note { get; set; }
     public IList<SubTask> SubTasks { get; set; }
 
     //foreign key 
     public int UserId { get; set; }
-
 
 }

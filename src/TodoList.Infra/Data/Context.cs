@@ -11,6 +11,7 @@ public class Context : DbContext
     public DbSet<Domain.Models.Task> Tasks { get; set; }
     public DbSet<SubTask> SubTasks { get; set; }
     public DbSet<Note> Notes { get; set; }
+    public DbSet<Record> Records { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
