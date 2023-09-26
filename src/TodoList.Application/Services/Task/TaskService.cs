@@ -13,16 +13,19 @@ public class TaskService : ITaskService
     private readonly IUserLogged _logged;
     private readonly IMapper _mapper;
     private readonly IHashidsService _hashids;
+    private readonly IRecordService _recordService;
     public TaskService(
         ITaskRepository repository,
         IUserLogged logged,
         IMapper mapper,
-        IHashidsService hashids)
+        IHashidsService hashids,
+        IRecordService recordService)
     {
         _repository = repository;
         _logged = logged;
         _mapper = mapper;
         _hashids = hashids;
+        _recordService = recordService;
     }
 
     public async Task<IList<GetAllTaskResponseJson>> GetAllAsync(GetAllTasksRequestJson request)
@@ -82,6 +85,14 @@ public class TaskService : ITaskService
         if (task is null)
         {
             throw new TaskNotFoundException("task not found");
+        }
+
+        if (request.Status == true)
+        {
+            task.CompletedAt = DateOnly.FromDateTime(DateTime.Now);
+            _mapper.Map(request, task);
+            await _repository.UpdateAsync();
+            await _recordService.RegisterAsync(task);
         }
         _mapper.Map(request, task);
         await _repository.UpdateAsync();

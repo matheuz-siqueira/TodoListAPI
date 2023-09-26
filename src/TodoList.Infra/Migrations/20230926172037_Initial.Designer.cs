@@ -11,8 +11,8 @@ using TodoList.Infra.Data;
 namespace TodoList.Infra.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230919002801_ChangeNote")]
-    partial class ChangeNote
+    [Migration("20230926172037_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,6 +39,25 @@ namespace TodoList.Infra.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Notes");
+                });
+
+            modelBuilder.Entity("TodoList.Domain.Models.Record", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Records");
                 });
 
             modelBuilder.Entity("TodoList.Domain.Models.SubTask", b =>
@@ -69,13 +88,16 @@ namespace TodoList.Infra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<DateOnly>("CompletedAt")
+                        .HasColumnType("date");
+
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("FinishDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("NoteId")
+                    b.Property<int?>("RecordId")
                         .HasColumnType("int");
 
                     b.Property<bool>("Status")
@@ -92,7 +114,7 @@ namespace TodoList.Infra.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NoteId");
+                    b.HasIndex("RecordId");
 
                     b.HasIndex("UserId");
 
@@ -130,6 +152,17 @@ namespace TodoList.Infra.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("TodoList.Domain.Models.Record", b =>
+                {
+                    b.HasOne("TodoList.Domain.Models.User", "User")
+                        .WithMany("Records")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("TodoList.Domain.Models.SubTask", b =>
                 {
                     b.HasOne("TodoList.Domain.Models.Task", "Task")
@@ -143,9 +176,9 @@ namespace TodoList.Infra.Migrations
 
             modelBuilder.Entity("TodoList.Domain.Models.Task", b =>
                 {
-                    b.HasOne("TodoList.Domain.Models.Note", "Note")
-                        .WithMany()
-                        .HasForeignKey("NoteId");
+                    b.HasOne("TodoList.Domain.Models.Record", null)
+                        .WithMany("Tasks")
+                        .HasForeignKey("RecordId");
 
                     b.HasOne("TodoList.Domain.Models.User", "User")
                         .WithMany("Tasks")
@@ -153,9 +186,12 @@ namespace TodoList.Infra.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Note");
-
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TodoList.Domain.Models.Record", b =>
+                {
+                    b.Navigation("Tasks");
                 });
 
             modelBuilder.Entity("TodoList.Domain.Models.Task", b =>
@@ -166,6 +202,8 @@ namespace TodoList.Infra.Migrations
             modelBuilder.Entity("TodoList.Domain.Models.User", b =>
                 {
                     b.Navigation("Notes");
+
+                    b.Navigation("Records");
 
                     b.Navigation("Tasks");
                 });

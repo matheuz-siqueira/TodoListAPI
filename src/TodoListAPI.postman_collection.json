@@ -884,6 +884,55 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "record-completed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verificar recuperar tarefas concluídas com sucesso\", function(){",
+									"    pm.response.to.have.status(200); ",
+									"    pm.response.to.be.withBody; ",
+									"    pm.response.to.be.json; ",
+									"",
+									"    let jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData).to.be.an('array'); ",
+									"    pm.expect(jsonData[0]).to.have.keys(\"id\", \"date\", \"tasks\"); ",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URLBASE}}/api/v1/dashboard/record-completed",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"dashboard",
+								"record-completed"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

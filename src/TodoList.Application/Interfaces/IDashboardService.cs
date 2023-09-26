@@ -6,4 +6,6 @@ public interface IDashboardService
 {
     Task<AllCompletedResponseJson> AllCompletedAsync();
     Task<AllPendingResponseJson> AllPendingAsync();
+    Task<IList<RecordResponseJson>> RercordAsync();
+
 }
