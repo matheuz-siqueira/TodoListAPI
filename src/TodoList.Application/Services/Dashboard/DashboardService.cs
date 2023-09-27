@@ -8,14 +8,16 @@ namespace TodoList.Application.Services.Dashboard;
 public class DashboardService : IDashboardService
 {
     private readonly IDashboardRepository _repository;
+    private readonly ITaskRepository _taskRepo;
     private readonly IUserLogged _logged;
     private readonly IMapper _mapper;
     public DashboardService(IDashboardRepository repository, IUserLogged logged,
-        IMapper mapper)
+        IMapper mapper, ITaskRepository taskRepo)
     {
         _repository = repository;
         _logged = logged;
         _mapper = mapper;
+        _taskRepo = taskRepo;
     }
     public async Task<AllCompletedResponseJson> AllCompletedAsync()
     {
@@ -35,6 +37,16 @@ public class DashboardService : IDashboardService
         {
             AllPending = allPending
         };
+    }
+
+    public async System.Threading.Tasks.Task RemoveAllAsync()
+    {
+        var userId = _logged.GetCurrentUserId();
+        var completed = await _repository.RecordAsync(userId);
+        if (completed.Any())
+        {
+            await _repository.RemoveAllAsync(completed);
+        }
     }
 
     public async Task<IList<RecordResponseJson>> RercordAsync()
