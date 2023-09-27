@@ -311,7 +311,7 @@
 					"response": []
 				},
 				{
-					"name": "get-all",
+					"name": "get-all-tasks",
 					"event": [
 						{
 							"listen": "test",
@@ -373,7 +373,7 @@
 					"response": []
 				},
 				{
-					"name": "get-by-id",
+					"name": "get-task-by-id",
 					"event": [
 						{
 							"listen": "test",
@@ -430,7 +430,7 @@
 					"response": []
 				},
 				{
-					"name": "update",
+					"name": "update-task",
 					"event": [
 						{
 							"listen": "test",
@@ -483,7 +483,7 @@
 					"response": []
 				},
 				{
-					"name": "remove",
+					"name": "remove-task",
 					"event": [
 						{
 							"listen": "test",
@@ -592,7 +592,7 @@
 					"response": []
 				},
 				{
-					"name": "get-all",
+					"name": "get-all-notes",
 					"event": [
 						{
 							"listen": "test",
@@ -641,7 +641,7 @@
 					"response": []
 				},
 				{
-					"name": "get-by-id",
+					"name": "get-note-by-id",
 					"event": [
 						{
 							"listen": "test",
@@ -690,7 +690,7 @@
 					"response": []
 				},
 				{
-					"name": "update",
+					"name": "update-note",
 					"event": [
 						{
 							"listen": "test",
@@ -743,7 +743,7 @@
 					"response": []
 				},
 				{
-					"name": "remove",
+					"name": "remove-note",
 					"event": [
 						{
 							"listen": "test",
@@ -792,7 +792,7 @@
 			"name": "Dashboard",
 			"item": [
 				{
-					"name": "all-completed",
+					"name": "all-tasks-completed",
 					"event": [
 						{
 							"listen": "test",
@@ -839,7 +839,7 @@
 					"response": []
 				},
 				{
-					"name": "all-pending",
+					"name": "all-tasks-pending",
 					"event": [
 						{
 							"listen": "test",
@@ -929,6 +929,49 @@
 								"v1",
 								"dashboard",
 								"record-completed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-record",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verificar remover todo o registro com sucesso\", function(){",
+									"    pm.response.to.have.status(204);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URLBASE}}/api/v1/dashboard/remove-all",
+							"host": [
+								"{{URLBASE}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"dashboard",
+								"remove-all"
 							]
 						}
 					},

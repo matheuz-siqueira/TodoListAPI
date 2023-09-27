@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using TodoList.Domain.Interfaces;
 using TodoList.Infra.Data;
 
+using System.Collections.Generic;
+
 namespace TodoList.Infra.Repositories.Dashboard;
 
 public class DashboardRepository : IDashboardRepository
@@ -31,5 +33,11 @@ public class DashboardRepository : IDashboardRepository
             .Include(r => r.Tasks)
             .OrderByDescending(r => r.Date)
             .ToListAsync();
+    }
+
+    public async System.Threading.Tasks.Task RemoveAllAsync(List<Domain.Models.Record> completed)
+    {
+        _context.RemoveRange(completed);
+        await _context.SaveChangesAsync();
     }
 }

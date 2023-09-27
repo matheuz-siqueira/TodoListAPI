@@ -60,4 +60,25 @@ public class DashboardController : TodoListController
         }
         return Ok(response);
     }
+
+    ///<summary> 
+    ///Remover todo o registro de tarefas concluídas
+    ///</summary> 
+    ///<returns>Nada</returns> 
+    ///<response code="200">Sucesso</response>
+    ///<response code="204">Sucesso</response> 
+    ///<response code="400">Erro na requisição</response>
+    [HttpDelete("remove-all")]
+    public async Task<ActionResult> RemoveAsync()
+    {
+        try
+        {
+            await _service.RemoveAllAsync();
+            return NoContent();
+        }
+        catch
+        {
+            return BadRequest(new { message = "invalid request" });
+        }
+    }
 }
