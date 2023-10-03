@@ -72,6 +72,12 @@ public class TaskService : ITaskService
         {
             throw new TaskNotFoundException("task not found");
         }
+
+        if (task.Status == true)
+        {
+            await _recordService.RemoveDeleted(task);
+        }
+
         await _repository.RemoveAsync(task);
     }
 
@@ -86,16 +92,34 @@ public class TaskService : ITaskService
         {
             throw new TaskNotFoundException("task not found");
         }
-
-        if (request.Status == true)
+        if (!task.Status == true)
         {
-            task.CompletedAt = DateOnly.FromDateTime(DateTime.Now);
+            if (request.Status == true)
+            {
+                task.CompletedAt = DateOnly.FromDateTime(DateTime.Now);
+                _mapper.Map(request, task);
+                await _repository.UpdateAsync();
+                await _recordService.RegisterAsync(task);
+            }
             _mapper.Map(request, task);
             await _repository.UpdateAsync();
-            await _recordService.RegisterAsync(task);
         }
-        _mapper.Map(request, task);
+    }
+
+    public async System.Threading.Tasks.Task UndoneAsync(string taskId)
+    {
+        var userId = _logged.GetCurrentUserId();
+        _hashids.IsHash(taskId);
+        var id = _hashids.Decode(taskId);
+        var task = await _repository.GetByIdTracking(userId, id);
+        if (task is null)
+        {
+            throw new TaskNotFoundException("task not found");
+        }
+        var date = task.CompletedAt;
+        task.Status = false;
         await _repository.UpdateAsync();
+        await _recordService.RemoveUndone(date, task);
     }
     private static IList<TodoList.Domain.Models.Task> Filter(
        GetAllTasksRequestJson request, IList<TodoList.Domain.Models.Task> tasks)

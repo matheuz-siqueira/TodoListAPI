@@ -38,7 +38,6 @@ public class DashboardService : IDashboardService
             AllPending = allPending
         };
     }
-
     public async System.Threading.Tasks.Task RemoveAllAsync()
     {
         var userId = _logged.GetCurrentUserId();
@@ -56,4 +55,6 @@ public class DashboardService : IDashboardService
         var response = _mapper.Map<List<RecordResponseJson>>(record);
         return response;
     }
+
+
 }

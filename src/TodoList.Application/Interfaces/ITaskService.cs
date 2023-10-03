@@ -8,4 +8,5 @@ public interface ITaskService
     Task<GetTaskResponseJson> GetByIdAsync(string taskId);
     Task RemoveAsync(string taskId);
     Task UpdateAsync(UpdateTaskRequestJson request, string taskId);
+    Task UndoneAsync(string taskId);
 }

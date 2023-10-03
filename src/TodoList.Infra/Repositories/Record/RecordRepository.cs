@@ -16,12 +16,19 @@ public class RecordRepository : IRecordRepository
     public async Task<Domain.Models.Record> GetByDateAsync(DateOnly date, int userId)
     {
         return await _context.Records.Where(r => r.UserId == userId)
+            .Include(r => r.Tasks)
             .FirstOrDefaultAsync(r => r.Date == date);
     }
 
     public async System.Threading.Tasks.Task RegisterAsync(Domain.Models.Record record)
     {
         await _context.Records.AddAsync(record);
+        await _context.SaveChangesAsync();
+    }
+
+    public async System.Threading.Tasks.Task RemoveAsync(Domain.Models.Record record)
+    {
+        _context.Records.Remove(record);
         await _context.SaveChangesAsync();
     }
 

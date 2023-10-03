@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 
 using TodoList.Application.Interfaces;
 using TodoList.Application.DTOs.Dashboard;
+using TodoList.Application.Exceptions.TodoListExceptions;
+
 
 namespace TodoList.Web.Controllers;
 
@@ -9,9 +11,11 @@ namespace TodoList.Web.Controllers;
 public class DashboardController : TodoListController
 {
     private readonly IDashboardService _service;
-    public DashboardController(IDashboardService service)
+    private readonly ITaskService _taskService;
+    public DashboardController(IDashboardService service, ITaskService taskService)
     {
         _service = service;
+        _taskService = taskService;
     }
 
     ///<summary>
@@ -75,6 +79,34 @@ public class DashboardController : TodoListController
         {
             await _service.RemoveAllAsync();
             return NoContent();
+        }
+        catch
+        {
+            return BadRequest(new { message = "invalid request" });
+        }
+    }
+
+    ///<summary> 
+    ///Tornar tarefa desfeita
+    ///</summary> 
+    ///<params name="id">Id da tarefa</params> 
+    ///<returns>Nada</returns> 
+    ///<response code="200">Sucesso</response>
+    ///<response code="204">Sucesso</response>
+    ///<response code="400">Erro na requisição</response>
+    ///<response code="401">Não autenticado</response>
+    ///<response code="404">Não encontrado</response>
+    [HttpPut("task-undone/{id}")]
+    public async Task<ActionResult> TaskUndone(string id)
+    {
+        try
+        {
+            await _taskService.UndoneAsync(id);
+            return NoContent();
+        }
+        catch (TaskNotFoundException e)
+        {
+            return NotFound(new { message = e.Message });
         }
         catch
         {
