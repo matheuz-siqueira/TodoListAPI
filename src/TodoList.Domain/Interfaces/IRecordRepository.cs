@@ -8,4 +8,6 @@ public interface IRecordRepository
     Task<Record> GetByDateAsync(DateOnly date, int userId);
     System.Threading.Tasks.Task UpdateAsync();
 
+    System.Threading.Tasks.Task RemoveAsync(Record record);
+
 }

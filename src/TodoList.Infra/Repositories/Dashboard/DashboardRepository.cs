@@ -26,6 +26,12 @@ public class DashboardRepository : IDashboardRepository
             .CountAsync(task => task.Status == false);
     }
 
+    public async Task<Domain.Models.Record> GetByIdTracking(int userId, int recordId)
+    {
+        return await _context.Records.Where(r => r.UserId == userId)
+            .FirstAsync(r => r.Id == recordId);
+    }
+
     public async Task<List<Domain.Models.Record>> RecordAsync(int userId)
     {
         return await _context.Records.AsNoTracking()
@@ -40,4 +46,5 @@ public class DashboardRepository : IDashboardRepository
         _context.RemoveRange(completed);
         await _context.SaveChangesAsync();
     }
+
 }
