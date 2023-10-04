@@ -20,6 +20,13 @@ public class RecordRepository : IRecordRepository
             .FirstOrDefaultAsync(r => r.Date == date);
     }
 
+    public async Task<Domain.Models.Record> GetByIdAsync(int userId, int recordId)
+    {
+        return await _context.Records.Where(r => r.UserId == userId)
+            .Include(r => r.Tasks)
+            .FirstOrDefaultAsync(r => r.Id == recordId);
+    }
+
     public async System.Threading.Tasks.Task RegisterAsync(Domain.Models.Record record)
     {
         await _context.Records.AddAsync(record);
