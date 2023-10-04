@@ -12,10 +12,13 @@ public class DashboardController : TodoListController
 {
     private readonly IDashboardService _service;
     private readonly ITaskService _taskService;
-    public DashboardController(IDashboardService service, ITaskService taskService)
+    private readonly IRecordService _recordService;
+    public DashboardController(
+        IDashboardService service, ITaskService taskService, IRecordService recordService)
     {
         _service = service;
         _taskService = taskService;
+        _recordService = recordService;
     }
 
     ///<summary>
@@ -105,6 +108,34 @@ public class DashboardController : TodoListController
             return NoContent();
         }
         catch (TaskNotFoundException e)
+        {
+            return NotFound(new { message = e.Message });
+        }
+        catch
+        {
+            return BadRequest(new { message = "invalid request" });
+        }
+    }
+
+    ///<summary>
+    ///Remover um registro de tarefas 
+    ///</summary> 
+    ///<params name="id">Id do registro</params>
+    ///<returns>Nada</returns> 
+    ///<response code="200">Sucesso</response>
+    ///<response code="204">Sucesso</response>
+    ///<response code="400">Erro na requisição</response>
+    ///<response code="401">Não autenticado</response>
+    ///<response code="404">Registro não encontrado</response>
+    [HttpDelete("delete/{id}")]
+    public async Task<ActionResult> RemoveByIdAsync(string id)
+    {
+        try
+        {
+            await _recordService.RemoveAsync(id);
+            return NoContent();
+        }
+        catch (RecordNotFoundException e)
         {
             return NotFound(new { message = e.Message });
         }

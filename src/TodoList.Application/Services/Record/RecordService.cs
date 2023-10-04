@@ -1,3 +1,4 @@
+using TodoList.Application.Exceptions.TodoListExceptions;
 using TodoList.Application.Interfaces;
 using TodoList.Domain.Interfaces;
 
@@ -7,10 +8,13 @@ public class RecordService : IRecordService
 {
     private readonly IRecordRepository _repository;
     private readonly IUserLogged _logged;
-    public RecordService(IRecordRepository repository, IUserLogged logged)
+    private IHashidsService _hashids;
+    public RecordService(
+        IRecordRepository repository, IUserLogged logged, IHashidsService hashids)
     {
         _repository = repository;
         _logged = logged;
+        _hashids = hashids;
     }
 
     public async System.Threading.Tasks.Task RegisterAsync(Domain.Models.Task task)
@@ -29,6 +33,20 @@ public class RecordService : IRecordService
             query.Tasks.Add(task);
             await _repository.UpdateAsync();
         }
+    }
+
+    public async System.Threading.Tasks.Task RemoveAsync(string recordId)
+    {
+        var userId = _logged.GetCurrentUserId();
+        _hashids.IsHash(recordId);
+        var id = _hashids.Decode(recordId);
+        var record = await _repository.GetByIdAsync(userId, id);
+        if (record is null)
+        {
+            throw new RecordNotFoundException("record not found");
+        }
+        await _repository.RemoveAsync(record);
+
     }
 
     public async System.Threading.Tasks.Task RemoveDeleted(Domain.Models.Task task)
