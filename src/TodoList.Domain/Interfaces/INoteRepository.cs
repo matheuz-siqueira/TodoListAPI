@@ -10,5 +10,6 @@ public interface INoteRepository
     System.Threading.Tasks.Task RemoveAsync(Note note);
     Task<Note> GetByIdTracking(int userId, int noteId);
     System.Threading.Tasks.Task UpdateAsync();
+    System.Threading.Tasks.Task RemoveAllAsync(IList<Models.Note> annotations);
 
 }

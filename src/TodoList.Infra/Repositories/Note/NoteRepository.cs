@@ -38,6 +38,12 @@ public class NoteRepository : INoteRepository
         return note;
     }
 
+    public async System.Threading.Tasks.Task RemoveAllAsync(IList<Domain.Models.Note> annotations)
+    {
+        _context.RemoveRange(annotations); 
+        await _context.SaveChangesAsync();
+    }
+
     public async System.Threading.Tasks.Task RemoveAsync(Domain.Models.Note note)
     {
         _context.Notes.Remove(note);
