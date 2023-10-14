@@ -9,4 +9,5 @@ public interface INoteService
     Task<IList<GetNoteResponseJson>> GetAllAsync();
     Task RemoveAsync(string id);
     Task UpdateAsync(string id, UpdateNoteRequestJson request);
+    Task RemoveAllAsync();
 }

@@ -57,6 +57,16 @@ public class NoteService : INoteService
 
     }
 
+    public async System.Threading.Tasks.Task RemoveAllAsync()
+    {
+        var userId = _logged.GetCurrentUserId(); 
+        var annotations = _repository.GetAllAsync(userId).Result; 
+        if(annotations.Any())
+        {
+            await _repository.RemoveAllAsync(annotations); 
+        } 
+    }
+
     public async System.Threading.Tasks.Task RemoveAsync(string id)
     {
         var userId = _logged.GetCurrentUserId();

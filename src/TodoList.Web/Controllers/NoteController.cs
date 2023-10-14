@@ -158,4 +158,16 @@ public class NoteController : TodoListController
             return BadRequest(new { message = e.Message });
         }
     }
+
+    ///<summary> 
+    ///Remover todas as anotações 
+    ///</summary> 
+    ///<returns>Nada</returns> 
+    ///<response code="204">Sucesso</response>
+    [HttpDelete("remove-all")]
+    public async Task<ActionResult> RemoveAllAsync()
+    {
+        await _service.RemoveAllAsync(); 
+        return NoContent();
+    }
 }
