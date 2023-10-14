@@ -11,7 +11,7 @@ using TodoList.Infra.Data;
 namespace TodoList.Infra.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230926172037_Initial")]
+    [Migration("20231011233009_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

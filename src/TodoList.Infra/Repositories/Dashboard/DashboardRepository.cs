@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using TodoList.Domain.Interfaces;
 using TodoList.Infra.Data;
 
-using System.Collections.Generic;
 
 namespace TodoList.Infra.Repositories.Dashboard;
 

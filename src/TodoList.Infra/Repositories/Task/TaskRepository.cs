@@ -17,6 +17,14 @@ public class TaskRepository : ITaskRepository
             .Where(t => t.UserId == userId && t.Status == false).ToListAsync();
     }
 
+    public async Task<List<Domain.Models.Task>> GetAllCompletedAsync(int userId)
+    {
+        return await _context.Tasks
+        .Include(t => t.SubTasks)
+        .Where(t => t.UserId == userId && t.Status == true)
+        .ToListAsync(); 
+    }
+
     public async Task<Domain.Models.Task> GetByIdAsync(int userId, int taskId)
     {
         return await _context.Tasks.AsNoTracking()
@@ -42,6 +50,12 @@ public class TaskRepository : ITaskRepository
     public async System.Threading.Tasks.Task RemoveAsync(TodoList.Domain.Models.Task task)
     {
         _context.Tasks.Remove(task);
+        await _context.SaveChangesAsync();
+    }
+
+    public async System.Threading.Tasks.Task RemoveCompletedAsync(List<Domain.Models.Task> tasks)
+    {
+        _context.RemoveRange(tasks); 
         await _context.SaveChangesAsync();
     }
 

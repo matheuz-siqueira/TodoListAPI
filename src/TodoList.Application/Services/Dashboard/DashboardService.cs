@@ -46,6 +46,8 @@ public class DashboardService : IDashboardService
         {
             await _repository.RemoveAllAsync(completed);
         }
+        var tasks = _taskRepo.GetAllCompletedAsync(userId).Result; 
+        await _taskRepo.RemoveCompletedAsync(tasks); 
     }
 
     public async Task<IList<RecordResponseJson>> RercordAsync()
