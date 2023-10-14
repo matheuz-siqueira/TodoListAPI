@@ -7,4 +7,6 @@ public interface ITaskRepository
     Task<TodoList.Domain.Models.Task> GetByIdTracking(int userId, int taskId);
     Task RemoveAsync(TodoList.Domain.Models.Task task);
     Task UpdateAsync();
+    Task<List<TodoList.Domain.Models.Task>> GetAllCompletedAsync(int userId); 
+    Task RemoveCompletedAsync (List<TodoList.Domain.Models.Task> tasks);
 }
